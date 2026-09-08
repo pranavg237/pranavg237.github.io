@@ -67,7 +67,7 @@ export const profile = {
   email: 'prg6@illinois.edu',
   altEmail: 'pranav.gillella1@gmail.com',
   github: 'https://github.com/pranavg237',
-  linkedin: 'https://www.linkedin.com/in/pranavgillella',
+  linkedin: 'https://www.linkedin.com/in/pranav-gillella-a953ba435',
   handshake: 'https://app.joinhandshake.com/profiles/rat3uj',
 } as const;
 
@@ -95,7 +95,7 @@ export const now: readonly { date: string; text: string }[] = [
   {
     date: 'Mar 2026',
     text:
-      'Teaching myself quant: a crossover backtester in Python, a Fama-French factor model, and Joshi’s interview guide.',
+      'Teaching myself quant: a crossover backtester in Python, a Fama-French factor model, and working problems out of Joshi and Zhou’s Green Book.',
   },
 ];
 
@@ -160,10 +160,10 @@ export const experience: readonly Job[] = [
   {
     org: 'Self-Employed',
     role: 'Private Tutor',
-    dates: 'Sep 2023 – May 2026',
+    dates: 'Dec 2024 – May 2026',
     location: 'Remote',
     bullets: [
-      'Tutored 5 AP Calculus AB and BC students, 2 hours weekly across three academic years.',
+      'Tutored 5 AP Calculus AB and BC students, 2 hours weekly across two academic years.',
       'All 5 scored a 4 or higher on the AP exam, with course averages above 85%.',
     ],
   },
