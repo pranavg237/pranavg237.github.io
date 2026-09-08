@@ -1,0 +1,178 @@
+---
+import Base from '../layouts/Base.astro';
+import Row from '../components/Row.astro';
+import Entry from '../components/Entry.astro';
+import {
+  profile,
+  experience,
+  leadership,
+  education,
+  awards,
+  skills,
+  resumeUpdated,
+} from '../data/resume';
+
+const updated = new Date(`${resumeUpdated}T00:00:00Z`).toLocaleDateString(
+  'en-US',
+  { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' },
+);
+---
+
+<Base
+  title="Résumé — Pranav Gillella"
+  description="Download Pranav Gillella's résumé as a PDF, or read the same record inline."
+>
+  <Row>
+    <h1>Résumé</h1>
+  </Row>
+
+  <Row class="lede">
+    <p>
+      <a href="/resume.pdf" type="application/pdf">Download the PDF</a>
+    </p>
+    <p class="meta tnum">Last updated <time datetime={resumeUpdated}>{updated}</time></p>
+    <p class="meta">
+      The full record is below and on the <a href="/experience">experience page</a>.
+      For anything not covered here, email <a href={`mailto:${profile.email}`}
+        >{profile.email}</a
+      > or <a href={`mailto:${profile.altEmail}`}>{profile.altEmail}</a>.
+    </p>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Education</h2>
+  </Row>
+  {
+    education.map((ed) => (
+      <Row date={ed.dates}>
+        <h3 class="h-sm">{ed.school}</h3>
+        <p class="meta">
+          <span>{ed.credential}</span>
+          <span>{ed.location}</span>
+        </p>
+        <ul class="bullets">
+          {ed.bullets.map((b) => (
+            <li>{b}</li>
+          ))}
+        </ul>
+      </Row>
+    ))
+  }
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Experience</h2>
+  </Row>
+  {experience.map((job) => <Entry job={job} />)}
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Leadership</h2>
+  </Row>
+  {leadership.map((job) => <Entry job={job} />)}
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Skills</h2>
+  </Row>
+  <Row>
+    <dl class="skills">
+      {
+        skills.map((group) => (
+          <div class="skills__group">
+            <dt>{group.name}</dt>
+            <dd>
+              <ul class="chips">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Awards</h2>
+  </Row>
+  {
+    awards.map((a) => (
+      <Row date={a.date}>
+        <h3 class="h-sm">{a.name}</h3>
+        {a.issuer && (
+          <p class="meta">
+            <span>{a.issuer}</span>
+          </p>
+        )}
+      </Row>
+    ))
+  }
+</Base>
+
+<style>
+  .lede > * + * {
+    margin-top: 0.5rem;
+  }
+
+  .h-sm {
+    font-size: 1.0625rem;
+  }
+
+  .meta {
+    color: var(--muted);
+    font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+
+  .bullets {
+    list-style: disc;
+    padding-left: 1.15rem;
+    margin-top: 0.5rem;
+  }
+
+  .bullets li + li {
+    margin-top: 0.4rem;
+  }
+
+  .bullets li::marker {
+    color: var(--muted);
+  }
+
+  .skills {
+    margin: 0;
+  }
+
+  .skills__group + .skills__group {
+    margin-top: 1.25rem;
+  }
+
+  .skills dt {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .skills dd {
+    margin: 0.35rem 0 0;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    list-style: none;
+    padding: 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+</style>

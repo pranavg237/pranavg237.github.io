@@ -1,0 +1,132 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Row from '../components/Row.astro';
+import { profile, links, now } from '../data/resume';
+
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title="Pranav Gillella — finance and CS at UIUC, founder of Quant Labs LLC"
+  description="Finance + CS at UIUC. Founder of Quant Labs LLC, which runs EarlyDMV and Protestly. Working toward quant trading and research."
+  jsonLd
+  home
+>
+  <Row class="intro">
+    <h1 class="intro__name">{profile.name}</h1>
+    <div class="name-rule" aria-hidden="true"></div>
+    <p class="intro__line">{profile.oneLiner}</p>
+    <ul class="intro__links">
+      {
+        links.map((l) => (
+          <li>
+            <a href={l.href}>{l.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Now</h2>
+  </Row>
+  {
+    now.map((item) => (
+      <Row date={item.date}>
+        <p>{item.text}</p>
+      </Row>
+    ))
+  }
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Selected projects</h2>
+  </Row>
+  {
+    projects.map((p) => (
+      <Row date={p.data.dates.split('–')[0].trim()}>
+        <h3 class="proj__title">
+          <a href={`/projects/${p.id}`}>{p.data.title}</a>
+        </h3>
+        <p>{p.data.tagline}</p>
+        <ul class="stack">
+          {p.data.stack.slice(0, 4).map((s) => (
+            <li>{s}</li>
+          ))}
+        </ul>
+      </Row>
+    ))
+  }
+  <Row>
+    <p><a href="/projects">All projects</a></p>
+  </Row>
+</Base>
+
+<style>
+  .intro > * + * {
+    margin-top: 1rem;
+  }
+
+  .intro__name {
+    font-size: 2rem;
+    letter-spacing: -0.015em;
+  }
+
+  .name-rule {
+    width: 4.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .intro__line {
+    max-width: 34ch;
+    font-size: 1.5rem;
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .intro__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.25rem;
+    list-style: none;
+    padding: 0;
+    font-size: 0.9375rem;
+  }
+
+  .proj__title {
+    font-size: 1.0625rem;
+  }
+
+  .proj__title a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+
+  .proj__title a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    list-style: none;
+    padding: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 30rem) {
+    .intro__name {
+      font-size: 2.5rem;
+    }
+  }
+</style>

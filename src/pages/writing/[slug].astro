@@ -1,0 +1,55 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Row from '../../components/Row.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatted = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<Base title={`${post.data.title} — Pranav Gillella`} description={post.data.description}>
+  <Row date={formatted} datetime={post.data.date.toISOString()}>
+    <h1 class="post__h1">{post.data.title}</h1>
+    <p class="post__desc">{post.data.description}</p>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="prose">
+    <Content />
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row>
+    <p><a href="/writing">All writing</a></p>
+  </Row>
+</Base>
+
+<style>
+  .post__h1 {
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .post__desc {
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+</style>

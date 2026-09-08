@@ -1,0 +1,135 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Row from '../../components/Row.astro';
+
+export const getStaticPaths = (async () => {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}) satisfies GetStaticPaths;
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+
+const linkLabels: Record<string, string> = {
+  live: 'Live site',
+  repo: 'Repository',
+  demo: 'Demo',
+};
+
+const projectLinks = Object.entries(project.data.links).filter(
+  ([, href]) => Boolean(href),
+) as [string, string][];
+---
+
+<Base
+  title={`${project.data.title} — Pranav Gillella`}
+  description={project.data.tagline}
+>
+  <Row date={project.data.dates}>
+    <h1 class="proj__h1">{project.data.title}</h1>
+    <p class="proj__tagline">{project.data.tagline}</p>
+    <dl class="facts">
+      <div>
+        <dt>Role</dt>
+        <dd>{project.data.role}</dd>
+      </div>
+      <div>
+        <dt>Status</dt>
+        <dd>{project.data.status}</dd>
+      </div>
+      <div>
+        <dt>Stack</dt>
+        <dd>
+          <ul class="stack">
+            {project.data.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="prose">
+    <Content />
+
+    {
+      projectLinks.length > 0 && (
+        <>
+          <h2>Links</h2>
+          <ul class="links">
+            {projectLinks.map(([key, href]) => (
+              <li>
+                <a href={href}>{linkLabels[key] ?? key}</a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row>
+    <p><a href="/projects">All projects</a></p>
+  </Row>
+</Base>
+
+<style>
+  .proj__h1 {
+    font-size: 1.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .proj__tagline {
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  .facts {
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+
+  .facts dt {
+    color: var(--muted);
+  }
+
+  .facts dd {
+    margin: 0.15rem 0 0;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    list-style: none;
+    padding: 0;
+  }
+
+  .links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .facts > *:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

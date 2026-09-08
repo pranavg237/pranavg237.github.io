@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Row from '../components/Row.astro';
+import Entry from '../components/Entry.astro';
+import {
+  experience,
+  leadership,
+  education,
+  awards,
+  skills,
+} from '../data/resume';
+---
+
+<Base
+  title="Experience — Pranav Gillella"
+  description="Quant Labs LLC, independent quant research, tutoring, leadership, education, skills and awards."
+>
+  <Row>
+    <h1>Experience</h1>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Work</h2>
+  </Row>
+  {experience.map((job) => <Entry job={job} />)}
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Leadership</h2>
+  </Row>
+  {leadership.map((job) => <Entry job={job} />)}
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Education</h2>
+  </Row>
+  {
+    education.map((ed) => (
+      <Row date={ed.dates}>
+        <h3 class="h-sm">{ed.school}</h3>
+        <p class="meta">
+          <span>{ed.credential}</span>
+          <span>{ed.location}</span>
+        </p>
+        <ul class="bullets">
+          {ed.bullets.map((b) => (
+            <li>{b}</li>
+          ))}
+        </ul>
+      </Row>
+    ))
+  }
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Skills</h2>
+  </Row>
+  <Row>
+    <dl class="skills">
+      {
+        skills.map((group) => (
+          <div class="skills__group">
+            <dt>{group.name}</dt>
+            <dd>
+              <ul class="chips">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </Row>
+
+  <div class="divider"></div>
+
+  <Row class="row--head">
+    <h2>Awards</h2>
+  </Row>
+  {
+    awards.map((a) => (
+      <Row date={a.date}>
+        <h3 class="h-sm">{a.name}</h3>
+        {a.issuer && <p class="meta"><span>{a.issuer}</span></p>}
+      </Row>
+    ))
+  }
+
+  <div class="divider"></div>
+
+  <Row>
+    <p>
+      The same record as a one-page document: <a href="/resume">résumé</a>.
+    </p>
+  </Row>
+</Base>
+
+<style>
+  .h-sm {
+    font-size: 1.0625rem;
+  }
+
+  .meta {
+    color: var(--muted);
+    font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+
+  .bullets {
+    list-style: disc;
+    padding-left: 1.15rem;
+    margin-top: 0.5rem;
+  }
+
+  .bullets li + li {
+    margin-top: 0.4rem;
+  }
+
+  .bullets li::marker {
+    color: var(--muted);
+  }
+
+  .skills {
+    margin: 0;
+  }
+
+  .skills__group + .skills__group {
+    margin-top: 1.25rem;
+  }
+
+  .skills dt {
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+
+  .skills dd {
+    margin: 0.35rem 0 0;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1rem;
+    list-style: none;
+    padding: 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+</style>

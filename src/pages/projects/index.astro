@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Row from '../../components/Row.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<Base
+  title="Projects — Pranav Gillella"
+  description="EarlyDMV, Protestly, a moving average crossover backtester, and the self-hosted infrastructure the businesses run on."
+>
+  <Row>
+    <h1>Projects</h1>
+  </Row>
+
+  <div class="divider"></div>
+
+  {
+    projects.map((p) => (
+      <Row date={p.data.dates}>
+        <h2 class="proj__title">
+          <a href={`/projects/${p.id}`}>{p.data.title}</a>
+        </h2>
+        <p>{p.data.tagline}</p>
+        <ul class="stack">
+          {p.data.stack.map((s) => (
+            <li>{s}</li>
+          ))}
+        </ul>
+      </Row>
+    ))
+  }
+</Base>
+
+<style>
+  .proj__title {
+    font-size: 1.0625rem;
+  }
+
+  .proj__title a {
+    color: var(--ink);
+    text-decoration-color: var(--rule);
+  }
+
+  .proj__title a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    list-style: none;
+    padding: 0;
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+</style>

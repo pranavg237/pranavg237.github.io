@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Row from '../components/Row.astro';
+---
+
+<Base
+  title="Page not found — Pranav Gillella"
+  description="That page doesn't exist."
+>
+  <Row date="404">
+    <h1>That page doesn't exist</h1>
+    <p class="lede">
+      The link may be old, or I may have moved something. Everything on the site
+      is reachable from the home page.
+    </p>
+    <ul class="plain">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/experience">Experience</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/resume">Résumé</a></li>
+    </ul>
+  </Row>
+</Base>
+
+<style>
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .lede {
+    margin-top: 0.75rem;
+  }
+
+  .plain {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+</style>
