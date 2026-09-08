@@ -30,8 +30,8 @@ const updated = new Date(`${resumeUpdated}T00:00:00Z`).toLocaleDateString(
     <p>
       <a href="/resume.pdf" type="application/pdf">Download the PDF</a>
     </p>
-    <p class="meta tnum">Last updated <time datetime={resumeUpdated}>{updated}</time></p>
-    <p class="meta">
+    <p class="note tnum">Last updated <time datetime={resumeUpdated}>{updated}</time></p>
+    <p class="note">
       The full record is below and on the <a href="/experience">experience page</a>.
       For anything not covered here, email <a href={`mailto:${profile.email}`}
         >{profile.email}</a
@@ -127,12 +127,20 @@ const updated = new Date(`${resumeUpdated}T00:00:00Z`).toLocaleDateString(
     font-size: 1.0625rem;
   }
 
+  /* Span pairs (role / location). Flex, so the pair spaces evenly. */
   .meta {
     color: var(--muted);
     font-size: 0.875rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem 1.25rem;
+  }
+
+  /* Running prose that happens to be secondary. Must stay in normal inline
+     flow — flex here would space out the words and punctuation. */
+  .note {
+    color: var(--muted);
+    font-size: 0.875rem;
   }
 
   .bullets {
