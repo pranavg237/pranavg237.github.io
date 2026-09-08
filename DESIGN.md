@@ -190,7 +190,7 @@ Re-checked after the restyle.
 | Monospace for every small label | **Clear.** Mono is confined to `<code>` and `<pre>`. Dates use Schibsted Grotesk with `tabular-nums`, which gives numeric alignment without the costume. |
 | Fade-and-slide-up entrances, hover animation on every card | **Clear.** No scroll-triggered animation, no `IntersectionObserver`, no hover transform. Links get a 120ms colour transition and nothing else. |
 | Numbered 01/02/03 markers on non-sequences | **Clear.** The only numbers in a margin are real dates. |
-| Stock illustrations | **Clear.** The only images are project screenshots supplied by Pranav and `og.png`. |
+| Stock illustrations | **Clear.** The only images are Pranav's About page portrait, project screenshots he supplies, and `og.png`. |
 
 ---
 

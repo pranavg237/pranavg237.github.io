@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import { outsideOfWork } from '../data/resume';
+import headshot from '../assets/headshot.jpg';
 ---
 
 <Base
@@ -9,6 +11,15 @@ import { outsideOfWork } from '../data/resume';
   description="Carrollton, Texas to UIUC. Why I'm studying finance and computer science together, and what I'm building toward."
 >
   <Section title="About" as="h1" gap="tight">
+    {/* Square and sharp-edged: the site has no rounded corners. See DESIGN.md §5. */}
+    <Image
+      class="portrait"
+      src={headshot}
+      alt="Pranav Gillella"
+      width={440}
+      height={440}
+      loading="eager"
+    />
     <div class="prose">
       <p>
         I grew up in Carrollton, Texas, and I'm a freshman at the University of
@@ -60,3 +71,14 @@ import { outsideOfWork } from '../data/resume';
     </p>
   </Section>
 </Base>
+
+<style>
+  .portrait {
+    display: block;
+    width: 220px;
+    height: auto;
+    max-width: 100%;
+    margin-bottom: 2rem;
+    border: 1px solid var(--rule);
+  }
+</style>

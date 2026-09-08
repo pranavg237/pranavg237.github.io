@@ -148,9 +148,10 @@ exists for each project so images can be dropped in without creating paths.
 - **No analytics, no third-party scripts, no external font or icon requests.**
   The only JavaScript that ships is the theme toggle and the inline
   anti-flash script.
-- **No `<Image>` component usage yet.** There are no images on the site beyond
-  the OG card and favicons. When project screenshots arrive they should go
-  through `astro:assets`, which is why the projects live in a content
-  collection.
+- **No project screenshots yet.** The only photograph is the About page
+  portrait (`src/assets/headshot.jpg`, through `astro:assets`); otherwise the
+  images are the OG card and favicons. When project screenshots arrive they
+  should go through `astro:assets` too, which is why the projects live in a
+  content collection.
 - **No custom domain.** `astro.config.mjs` has a comment marking the two things
   to change, and the README has the procedure.
