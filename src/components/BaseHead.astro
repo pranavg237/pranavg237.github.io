@@ -1,0 +1,99 @@
+---
+import { profile } from '../data/resume';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Set on the home page only. */
+  jsonLd?: boolean;
+}
+
+const { title, description, jsonLd = false } = Astro.props;
+
+/*
+  build.format is 'file', so Astro.url.pathname carries the .html extension
+  (/about.html). The URL people actually visit — and the one the sitemap
+  lists — is the extensionless form, so canonical and og:url use that.
+*/
+const cleanPath =
+  Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '') || '/';
+const canonical = new URL(cleanPath, Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.name,
+  url: Astro.site?.href,
+  email: `mailto:${profile.email}`,
+  jobTitle: 'Founder, Quant Labs LLC',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Carrollton',
+    addressRegion: 'TX',
+    addressCountry: 'US',
+  },
+  affiliation: {
+    '@type': 'CollegeOrUniversity',
+    name: 'University of Illinois Urbana-Champaign',
+    url: 'https://illinois.edu',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'University of Illinois Urbana-Champaign',
+  },
+  sameAs: [profile.github, profile.linkedin],
+};
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={profile.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${profile.name} — ${profile.oneLiner}`} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!--
+  Preloaded so the variable font is in flight before the stylesheet asks for it.
+  font-display: swap means it never blocks render.
+-->
+<link
+  rel="preload"
+  href="/fonts/ibm-plex-sans-latin-wght-normal.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+/>
+
+{
+  jsonLd && (
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(person)}
+    />
+  )
+}
