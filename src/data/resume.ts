@@ -67,6 +67,7 @@ export const profile = {
   altEmail: 'pranav.gillella1@gmail.com',
   github: 'https://github.com/pranavg237',
   linkedin: 'https://www.linkedin.com/in/pranavgillella',
+  handshake: 'https://app.joinhandshake.com/profiles/rat3uj',
 } as const;
 
 /** Footer and home-page links, in order. */
@@ -74,6 +75,7 @@ export const links: readonly Link[] = [
   { label: profile.email, href: `mailto:${profile.email}` },
   { label: 'GitHub', href: profile.github },
   { label: 'LinkedIn', href: profile.linkedin },
+  { label: 'Handshake', href: profile.handshake },
   { label: 'Résumé (PDF)', href: '/resume.pdf' },
 ];
 
