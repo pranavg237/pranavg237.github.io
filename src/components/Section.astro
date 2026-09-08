@@ -1,0 +1,36 @@
+---
+/**
+ * A titled block in the content column.
+ *
+ * The rule above, the small SemiBold label, and the 37px gap under it are the
+ * reference design's section signature.
+ *
+ * `gap` sets the rhythm of the body:
+ *   entries — 50px, for multi-paragraph records (jobs, education)
+ *   rows    — 24px, for one- or two-line records (awards, cards, posts)
+ *   tight   — normal paragraph spacing, for prose or a single list
+ */
+
+interface Props {
+  /** Omitted for an untitled closing block. */
+  title?: string;
+  /** Heading level, so each page keeps a correct outline. */
+  as?: 'h1' | 'h2';
+  gap?: 'entries' | 'rows' | 'tight';
+  class?: string;
+}
+
+const {
+  title,
+  as: Heading = 'h2',
+  gap = 'entries',
+  class: className = '',
+}: Props = Astro.props;
+---
+
+<section class:list={['section', className]}>
+  {title && <Heading class="section__title">{title}</Heading>}
+  <div class:list={['section__body', `section__body--${gap}`]}>
+    <slot />
+  </div>
+</section>

@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Row from '../components/Row.astro';
+import Section from '../components/Section.astro';
 import { outsideOfWork } from '../data/resume';
 ---
 
@@ -8,72 +8,55 @@ import { outsideOfWork } from '../data/resume';
   title="About — Pranav Gillella"
   description="Carrollton, Texas to UIUC. Why I'm studying finance and computer science together, and what I'm building toward."
 >
-  <Row>
-    <h1>About</h1>
-  </Row>
+  <Section title="About" as="h1" gap="tight">
+    <div class="prose">
+      <p>
+        I grew up in Carrollton, Texas, and I'm a freshman at the University of
+        Illinois — finance in Gies, computer science minor in Grainger.
+      </p>
+      <p>
+        Markets came first. In 2023 I won the Stock Market Game and was a
+        national finalist in InvestWrite, and what stuck was not the winning. It
+        was that a written argument about a company could be checked against
+        what actually happened afterward. Code came second, through AP Computer
+        Science, and it took me a while to notice the two were the same
+        instinct: make the claim, then find out whether you were right.
+      </p>
+      <p>
+        That's why I'm doing both rather than picking one. Finance without
+        programming means taking someone else's numbers on faith. Programming
+        without finance means building tools with no view about what's worth
+        measuring.
+      </p>
+      <p>
+        I run Quant Labs LLC, which is two products I built and operate alone.
+        EarlyDMV rebooks Texas DPS driver license appointments into earlier
+        slots. Protestly files property tax protests for Denton County
+        homeowners and argues them at the appraisal review board. Both are live,
+        both have paying customers, and both are hosted on hardware I manage
+        myself.
+      </p>
+      <p>
+        What I'm working toward is quant research or trading. The <a
+          href="/projects/ma-crossover-backtest">backtester</a
+        > is where that starts — I wrote the metrics from scratch specifically so
+        I'd understand what they hide.
+      </p>
+    </div>
+  </Section>
 
-  <Row class="prose">
-    <p>
-      I grew up in Carrollton, Texas, and I'm a freshman at the University of
-      Illinois — finance in Gies, computer science minor in Grainger.
-    </p>
-    <p>
-      Markets came first. In 2023 I won the Stock Market Game and was a national
-      finalist in InvestWrite, and what stuck was not the winning. It was that a
-      written argument about a company could be checked against what actually
-      happened afterward. Code came second, through AP Computer Science, and it
-      took me a while to notice the two were the same instinct: make the claim,
-      then find out whether you were right.
-    </p>
-    <p>
-      That's why I'm doing both rather than picking one. Finance without
-      programming means taking someone else's numbers on faith. Programming
-      without finance means building tools with no view about what's worth
-      measuring.
-    </p>
-    <p>
-      I run Quant Labs LLC, which is two products I built and operate alone.
-      EarlyDMV rebooks Texas DPS driver license appointments into earlier slots.
-      Protestly files property tax protests for Denton County homeowners and
-      argues them at the appraisal review board. Both are live, both have paying
-      customers, and both are hosted on hardware I manage myself.
-    </p>
-    <p>
-      What I'm working toward is quant research or trading. The <a
-        href="/projects/ma-crossover-backtest">backtester</a
-      > is where that starts — I wrote the metrics from scratch specifically so I'd
-      understand what they hide.
-    </p>
-  </Row>
-
-  <div class="divider"></div>
-
-  <Row class="row--head">
-    <h2>Outside of work</h2>
+  <Section title="Outside of work" gap="tight">
     <ul class="plain">
       {outsideOfWork.map((item) => <li>{item}</li>)}
     </ul>
-  </Row>
+  </Section>
 
-  <div class="divider"></div>
-
-  <Row>
-    <p>
+  <Section gap="tight">
+    {/* A sentence, so the links keep their underlines. */}
+    <p class="prose">
       More detail on <a href="/experience">experience and skills</a>, or the <a
         href="/resume">résumé</a
       >.
     </p>
-  </Row>
+  </Section>
 </Base>
-
-<style>
-  .plain {
-    list-style: none;
-    padding: 0;
-    margin-top: 0.75rem;
-  }
-
-  .plain li + li {
-    margin-top: 0.4rem;
-  }
-</style>

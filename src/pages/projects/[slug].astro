@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
-import Row from '../../components/Row.astro';
+import Section from '../../components/Section.astro';
 
 export const getStaticPaths = (async () => {
   const projects = await getCollection('projects');
@@ -30,89 +30,85 @@ const projectLinks = Object.entries(project.data.links).filter(
   title={`${project.data.title} — Pranav Gillella`}
   description={project.data.tagline}
 >
-  <Row date={project.data.dates}>
-    <h1 class="proj__h1">{project.data.title}</h1>
-    <p class="proj__tagline">{project.data.tagline}</p>
-    <dl class="facts">
-      <div>
-        <dt>Role</dt>
-        <dd>{project.data.role}</dd>
+  {/*
+    The same two columns as an experience entry: what the thing is on the
+    left, the account of it on the right.
+  */}
+  <Section gap="tight">
+    <div class="entry entry--flush">
+      <div class="entry__meta">
+        <h1 class="page-title">{project.data.title}</h1>
+        <dl class="facts">
+          <dt>Dates</dt>
+          <dd class="tnum">{project.data.dates}</dd>
+          <dt>Role</dt>
+          <dd>{project.data.role}</dd>
+          <dt>Status</dt>
+          <dd>{project.data.status}</dd>
+          <dt>Stack</dt>
+          <dd>
+            <ul class="chips">
+              {project.data.stack.map((s) => <li>{s}</li>)}
+            </ul>
+          </dd>
+        </dl>
       </div>
-      <div>
-        <dt>Status</dt>
-        <dd>{project.data.status}</dd>
+
+      <div class="entry__body">
+        <p class="tagline">{project.data.tagline}</p>
+        <div class="prose">
+          <Content />
+        </div>
+        {
+          projectLinks.length > 0 && (
+            <ul class="links">
+              {projectLinks.map(([key, href]) => (
+                <li>
+                  <a class="ext" href={href} target="_blank" rel="noopener">
+                    {linkLabels[key] ?? key}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )
+        }
       </div>
-      <div>
-        <dt>Stack</dt>
-        <dd>
-          <ul class="stack">
-            {project.data.stack.map((s) => <li>{s}</li>)}
-          </ul>
-        </dd>
-      </div>
-    </dl>
-  </Row>
+    </div>
+  </Section>
 
-  <div class="divider"></div>
-
-  <Row class="prose">
-    <Content />
-
-    {
-      projectLinks.length > 0 && (
-        <>
-          <h2>Links</h2>
-          <ul class="links">
-            {projectLinks.map(([key, href]) => (
-              <li>
-                <a href={href}>{linkLabels[key] ?? key}</a>
-              </li>
-            ))}
-          </ul>
-        </>
-      )
-    }
-  </Row>
-
-  <div class="divider"></div>
-
-  <Row>
-    <p><a href="/projects">All projects</a></p>
-  </Row>
+  <Section gap="tight">
+    <p class="more"><a href="/projects">All projects</a></p>
+  </Section>
 </Base>
 
 <style>
-  .proj__h1 {
-    font-size: 1.5rem;
+  .tagline {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-entry);
+    line-height: 1.35;
     letter-spacing: -0.01em;
   }
 
-  .proj__tagline {
-    color: var(--muted);
-    margin-top: 0.5rem;
-  }
-
+  /* Label / value pairs, stacked. Reads as one block of facts, not a table. */
   .facts {
-    margin: 1.5rem 0 0;
-    display: grid;
-    gap: 0.75rem;
-    font-size: 0.875rem;
+    font-family: var(--font-sans);
+    font-size: var(--fs-body);
+    letter-spacing: -0.01em;
+    line-height: 1.4;
   }
 
   .facts dt {
     color: var(--muted);
+    margin-top: 0.75rem;
+  }
+
+  .facts dt:first-child {
+    margin-top: 0;
   }
 
   .facts dd {
-    margin: 0.15rem 0 0;
-  }
-
-  .stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25rem 1rem;
-    list-style: none;
-    padding: 0;
+    margin: 0.1rem 0 0;
   }
 
   .links {
@@ -121,15 +117,12 @@ const projectLinks = Object.entries(project.data.links).filter(
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1.5rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-label);
   }
 
-  @media (min-width: 40rem) {
-    .facts {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .facts > *:last-child {
-      grid-column: 1 / -1;
-    }
+  .links a:hover {
+    color: var(--muted);
   }
 </style>

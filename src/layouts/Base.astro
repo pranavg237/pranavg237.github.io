@@ -3,17 +3,45 @@ import '../styles/global.css';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
-import { profile } from '../data/resume';
+import { profile, links } from '../data/resume';
 
 interface Props {
   title: string;
   description: string;
   jsonLd?: boolean;
-  /** The home page is its own nav, so it hides the back link. */
+  /** The home page is its own destination, so its nav entry is not marked. */
   home?: boolean;
 }
 
 const { title, description, jsonLd = false, home = false } = Astro.props;
+
+/*
+  build.format is 'file', so pathname carries .html in the built output but not
+  in dev. Normalise both to the extensionless form the nav hrefs use.
+*/
+const path =
+  Astro.url.pathname.replace(/index\.html$/, '').replace(/\.html$/, '') || '/';
+
+/* /writing stays unlinked until a real post exists. See README. */
+const nav = [
+  { label: 'About', href: '/about' },
+  { label: 'Experience', href: '/experience' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Résumé', href: '/resume' },
+];
+
+/*
+  The home page's subject is Pranav, so the masthead carries its <h1>. Every
+  other page names itself in its first section heading, and repeating the
+  identity as a second h1 there would give every page the same one.
+*/
+const Id = home ? 'h1' : 'p';
+
+const isCurrent = (href: string) =>
+  !home && (path === href || path.startsWith(`${href}/`));
+
+/** Anything that leaves the site, or leaves the page, gets the ↗ marker. */
+const isExternal = (href: string) => !href.startsWith('/') || href.endsWith('.pdf');
 ---
 
 <!doctype html>
@@ -23,6 +51,9 @@ const { title, description, jsonLd = false, home = false } = Astro.props;
     <!--
       Blocking, inline, and deliberately tiny: it runs before first paint so the
       correct theme is on <html> from the very first frame. No flash.
+
+      Dark is the stylesheet's default for everyone, so this only ever has to
+      set the attribute for someone who explicitly chose light.
     -->
     <script is:inline>
       (function () {
@@ -32,7 +63,7 @@ const { title, description, jsonLd = false, home = false } = Astro.props;
             document.documentElement.dataset.theme = stored;
           }
         } catch (e) {
-          /* Storage unavailable: fall through to prefers-color-scheme. */
+          /* Storage unavailable: the default dark palette stands. */
         }
       })();
     </script>
@@ -42,21 +73,62 @@ const { title, description, jsonLd = false, home = false } = Astro.props;
 
     <div class="shell">
       <header class="masthead">
-        {
-          home ? (
-            <span />
-          ) : (
-            <a class="masthead__back" href="/">
-              <span aria-hidden="true">←</span> {profile.name}
-            </a>
-          )
-        }
-        <ThemeToggle />
+        <Id class="masthead__id">
+          <a class="masthead__name" href="/">{profile.name},</a>
+          <span class="masthead__title">{profile.title}</span>
+        </Id>
+
+        <div class="masthead__right">
+          <nav class="masthead__nav" aria-label="Primary">
+            <ul>
+              {
+                nav.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      aria-current={isCurrent(item.href) ? 'page' : undefined}
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </nav>
+          <ThemeToggle />
+        </div>
       </header>
 
-      <main id="main">
-        <slot />
-      </main>
+      <div class="columns">
+        <aside class="rail" aria-label="Contact">
+          <p class="rail__lede">{profile.oneLiner}</p>
+          <ul class="rail__links">
+            {
+              links.map((l, i) => (
+                <li>
+                  <a
+                    class:list={[
+                      'rail__link',
+                      i === 0 && 'rail__link--primary',
+                    ]}
+                    href={l.href}
+                    {...(isExternal(l.href)
+                      ? { target: '_blank', rel: 'noopener' }
+                      : {})}
+                  >
+                    <span>{l.label}</span>
+                    <span class="rail__arrow" aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </aside>
+
+        <main class="content" id="main">
+          <slot />
+        </main>
+      </div>
 
       <Footer />
     </div>
@@ -64,30 +136,34 @@ const { title, description, jsonLd = false, home = false } = Astro.props;
 </html>
 
 <style>
-  .masthead {
+  .masthead__right {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
-    margin-bottom: 2.5rem;
+    /* The nav wraps before the toggle does. */
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
   }
 
-  .masthead__back {
-    font-size: 0.875rem;
-    color: var(--muted);
-    text-decoration: none;
-  }
-
-  .masthead__back:hover {
-    color: var(--accent);
-    text-decoration: underline;
-    text-underline-offset: 0.18em;
-  }
-
-  @media (min-width: 64rem) {
-    .masthead {
-      /* Pull the masthead out over the gutter so it sits above the rail. */
-      margin-left: calc(-1 * (var(--gutter) + var(--gutter-gap)));
+  @media (min-width: 50rem) {
+    .masthead__right {
+      width: auto;
+      justify-content: flex-end;
     }
+  }
+
+  .masthead__name:hover {
+    color: var(--muted);
+  }
+
+  /* Sized against the label, not the row, so it stays small next to the
+     email's larger type. */
+  .rail__arrow {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.625rem;
+    line-height: 1;
+    flex: none;
   }
 </style>

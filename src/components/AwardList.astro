@@ -1,0 +1,19 @@
+---
+import Row from './Row.astro';
+import { awards } from '../data/resume';
+---
+
+{
+  awards.map((a) => (
+    <Row date={a.date}>
+      <h3 class="award__name">{a.name}</h3>
+      {a.issuer && <p class="note">{a.issuer}</p>}
+    </Row>
+  ))
+}
+
+<style>
+  .award__name {
+    font-size: var(--fs-entry);
+  }
+</style>

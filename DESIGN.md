@@ -1,255 +1,241 @@
 # DESIGN.md
 
-The design brief for pranavg237.github.io. Written before any code.
+The design brief for pranavg237.github.io.
 
 **Subject:** a finance + CS student and founder aiming at quant roles.
 **Job of the site:** make Pranav legible in 60 seconds to a quant recruiter, a professor, or a customer of one of his businesses, and let anyone who wants to dig further do so in one more click.
 **Register:** a sharp personal site. Not an agency landing page, not a SaaS marketing page, not a résumé dumped into HTML.
 
+> **Revision note.** The site was originally built to a light, indigo-accented
+> design whose memorable element was a vertical date rail in an 8rem gutter.
+> Pranav then asked for it to be rebuilt to match a specific reference —
+> `https://public-buzz-pure.figma.site`, a black single-page résumé template.
+> The routes and the content structure were kept; the entire visual language was
+> replaced. This document describes what is actually shipped. Where a decision
+> reverses the original brief, it says so and says why.
+
 ---
 
 ## 1. Palette
 
-Near-monochrome with one accent. Neutrals carry a very slight cool cast so they read as paper-under-fluorescent rather than warm editorial cream. Six named roles, each defined in both modes as a CSS custom property.
+Black, white, and one grey. There is no accent colour and no hue anywhere on the site — the reference has none, and adding one would be the single loudest thing on the page.
 
-### Light
-
-| Token | Hex | Role |
-|---|---|---|
-| `--paper` | `#F7F7F5` | Page background. Off-white, faintly cool. Not cream, not pure white. |
-| `--ink` | `#15171B` | Body text and headings. Blue-black, never `#000`. |
-| `--muted` | `#5C616A` | Dates, locations, meta, captions, secondary nav. |
-| `--rule` | `#E2E1DD` | Hairlines — section dividers, the gutter rail, table lines. |
-| `--accent` | `#2F3BA2` | Links, focus rings, the name rule, the one moment of colour. |
-| `--accent-soft` | `#E8E9F7` | The single wash: active nav marker and inline `<mark>`-style emphasis. Used maybe four times site-wide. |
-
-### Dark
+### Dark — the default for everyone
 
 | Token | Hex | Role |
 |---|---|---|
-| `--paper` | `#101114` | |
-| `--ink` | `#E7E7E4` | |
-| `--muted` | `#969CA6` | |
-| `--rule` | `#26282D` | |
-| `--accent` | `#A6AEFF` | Lightened so it clears AA on a dark ground. |
-| `--accent-soft` | `#1B1D33` | |
+| `--paper` | `#000000` | Page background. True black, as in the reference. |
+| `--ink` | `#FFFFFF` | Names, headings, body copy, bullets. |
+| `--muted` | `#ABABAB` | Organisations, dates, locations, summaries, secondary labels. |
+| `--rule` | `#383838` | Section separators — the heavier of the two hairlines. |
+| `--hairline` | `#2A2A2A` | Entry separators, sub-role borders, the toggle's border. |
+
+### Light — the opt-in
+
+| Token | Hex | Role |
+|---|---|---|
+| `--paper` | `#FFFFFF` | |
+| `--ink` | `#0A0A0A` | |
+| `--muted` | `#5C5C5C` | |
+| `--rule` | `#D4D4D4` | |
+| `--hairline` | `#E6E6E6` | |
 
 ### Measured contrast (computed, not estimated)
 
-| Pair | Light | Dark |
+| Pair | Dark | Light |
 |---|---|---|
-| ink on paper | **16.73:1** (AAA) | **15.24:1** (AAA) |
-| muted on paper | **5.80:1** (AA) | **6.84:1** (AA) |
-| accent on paper | **8.63:1** (AAA) | **9.10:1** (AAA) |
+| ink on paper | **21.00:1** (AAA) | **19.80:1** (AAA) |
+| muted on paper | **9.14:1** (AAA) | **6.69:1** (AA) |
 
-`--rule` is decorative hairline only (1.22:1 / 1.28:1) and never carries information on its own — every section it separates also has a heading. Focus rings use `--accent`, so they clear the 3:1 non-text requirement with room to spare in both modes.
+`--rule` (1.79:1 / 1.48:1) and `--hairline` (1.46:1 / 1.25:1) are decorative separators only and never carry information on their own — every section they separate also has a heading. Focus rings use `--ink`, which is the highest-contrast colour available in either mode.
 
-**Why indigo.** The brief bans terracotta and bans acid green / vermilion. It also asks for restraint. A deep indigo is the one saturated hue that reads as considered rather than decorative next to a blue-black ink — it's close enough to `--ink` in hue to look like part of the same system, and far enough in chroma to be unmistakable when it appears. It is also the only colour on the site, so it can afford to be a colour people have seen before; the memorability budget is spent on structure instead (§4).
+**Why two hairline weights.** The reference draws section separators at 1px `#383838` and entry separators at 0.5px of the same colour. Sub-pixel borders round to a full pixel inconsistently across browsers and zoom levels, so both are 1px here and the *colour* carries the weight difference instead. The visual result is the same and it is stable everywhere.
+
+**Why dark is not behind `prefers-color-scheme`.** This design is black the way the reference is black. Following a light OS preference into a palette the design was not drawn for produces a different, worse site. So `:root` is dark for everyone, and nothing in the stylesheet reads `prefers-color-scheme`; only an explicit choice from the toggle switches it. This reverses the original brief, which was light-first with dark as an override.
 
 ---
 
 ## 2. Typefaces
 
-**One family, plus a mono restricted to code.**
+**Two families, split by job, plus a mono restricted to code.** This also reverses the original brief, which used one family for everything.
 
-### IBM Plex Sans — everything
+### Schibsted Grotesk — structure
 
-`@fontsource-variable/ibm-plex-sans`, self-hosted, variable, woff2, `font-display: swap`, subset to latin. Weights used: 400, 500, 600 (from the variable axis, so one file).
+`@fontsource-variable/schibsted-grotesk`, self-hosted, variable, woff2, `font-display: swap`, subset to latin. Weights used: 400 and 600 from the variable axis, so one file.
 
-Why:
+Carries everything that is a label rather than a sentence: the name, the nav, section headings, entry titles, organisations, dates, locations, chips, the footer. It is the reference's own display face, and the tight negative tracking at 600 is most of why the masthead reads the way it does.
 
-- **It was drawn for technical documentation**, which is what most of this site is. It holds up at 14–16px in long runs of dense factual text — dates, dollar figures, tax code sections — which is where a display-first choice would fall apart.
-- **True tabular lining figures**, available via `font-feature-settings: "tnum"`. The entire layout depends on numerals aligning in a column (§3, §4). Most free grotesques ship proportional figures by default and look ragged the moment you stack dates.
-- **It is not the neutral default.** Plex has a visible point of view — the flat-sided `a`, the disjointed `g` bowl, the sheared terminals inherited from IBM's Selectric lineage. Set against Inter or a system stack, it reads as a choice. That's the whole reason to self-host a font on a text-first site.
-- **One family covers the whole scale.** 600 at 2.5rem for the name, 600 at 1.0rem for section headings, 400 at 1.0rem for body, 400 at 0.875rem for meta. No second family needed, no second network cost.
+### Geist — running text
 
-**Fallback stack:** `"IBM Plex Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif`. Metrics are close enough to system-ui that swap causes no visible reflow.
+`@fontsource-variable/geist`, same treatment. Carries body copy, bullets, summaries and prose — everything that is read as a sentence rather than scanned as a fact.
 
-### IBM Plex Mono — code only
+The split is the point: on a page that is mostly a two-column grid of facts against paragraphs, giving the two jobs two voices makes the grid legible before you read a word. Both faces are neutral grotesques with similar proportions, so the page still reads as one system.
 
-`@fontsource-variable/ibm-plex-mono`, 400 only. Used **exclusively** inside `<code>` and `<pre>` on project pages. Not for dates, not for stack chips, not for labels — see §5.
+### Geist Mono — code only
 
-Metrically related sibling of Plex Sans, so code blocks sit inside prose without a step change in colour or weight.
+Used **exclusively** inside `<code>` and `<pre>` on project pages. Not for dates, not for chips, not for labels — see §5. Metrically related to Geist, so code sits inside prose without a step change in colour.
+
+**Preloading.** Schibsted Grotesk and Geist are both `<link rel="preload">`ed. Geist Mono is not — only some project pages use it.
 
 ### Type scale
 
-A 1.25 ratio, capped at five sizes. Sizes in `rem`, line heights unitless.
+Small, and stepped at the reference's own breakpoints rather than at round numbers.
 
-| Step | Size | Line height | Weight | Used for |
+| Token | Size | Steps at | Weight | Used for |
 |---|---|---|---|---|
-| `xl` | 2.5rem / 40px | 1.25 | 600 | The name on `/`, page `<h1>` |
-| `lg` | 1.5rem / 24px | 1.25 | 600 | Project page `<h1>`, home one-liner |
-| `section` | 1.25rem / 20px | 1.25 | 600 | Section `<h2>` |
-| `md` | 1.0625rem / 17px | 1.25 | 600 | Entry titles `<h3>`, prose `<h2>` |
-| `base` | 1.0625rem / 17px | 1.65 | 400 | Body |
-| `sm` | 0.875rem / 14px | 1.5 | 400 | Dates, meta, footer, stack lists |
+| `--fs-display` | 20px | 22px @800, 24px @1200 | 600 | The name, the title beneath it, the nav ≥800px |
+| `--fs-entry` | 16px | — | 600 | Entry titles, card titles, prose headings |
+| `--fs-body` | 15px | 16px @1280 | 400 | Body, bullets, summaries, dates, locations |
+| `--fs-label` | 13px | — | 600 | Section headings, the primary rail link, the footer |
+| `--fs-small` | 12px | — | 400 | Secondary rail links, chips, the footer's contact row |
 
-**The `section` step was added during the build, not planned.** The first pass
-set section headings and entry titles both at `md`, and on `/experience` that
-made "Work" and "Quant Labs LLC" read as siblings rather than as a section and
-the entry inside it. Position and the divider above were not enough to carry the
-hierarchy on their own. Six steps rather than five, and the scale is still small
-enough to hold together.
+Section headings being *smaller* than the entry titles they introduce is the reference's move, and it works because the hairline above them plus 37px of air below does the separating. It also reverses the original brief, which added a larger `section` step precisely to stop headings and entry titles reading as siblings.
 
-On viewports under 480px, `xl` steps down to 2rem. Nothing else changes — the scale is small enough to survive mobile intact, which is the point of capping it at five.
-
-**Measure:** body text `max-width: 68ch`. Meta and headings share the same column and the same left edge.
+**Measure:** `--measure: 34rem`, applied to `.prose`, `.entry__body` and `.row__body` so every block of running text on the site wraps at the same width. This is a fixed length rather than `ch` on purpose — Geist's `0` glyph is much narrower than its average lowercase letter, so the original `68ch` was running about 95 characters to the line. 34rem holds 72–81 depending on the character mix, measured in the browser.
 
 ---
 
 ## 3. Layout concept
 
-Everything is one left-aligned column of at most 68ch, and every dated thing in Pranav's life hangs off a single vertical hairline to the left of it. On screens 1024px and wider the page splits into a narrow 8rem gutter and the text column: the gutter holds the date, right-aligned, in tabular figures, so `Jun 2026 – Present`, `Mar 2026 – Present` and `Aug 2025 – May 2026` stack into a true right-flush numeric column against the rail, and the eye can read the chronology of a career vertically without touching the prose. Section dividers are single hairlines that bleed leftward across the gutter and stop at the right edge of the text column, so the page reads as a ruled sheet rather than a stack of boxes. Below 1024px the gutter collapses and dates move inline above each entry title in `--muted`; the hairline rail disappears rather than becoming a decorative stub. There are no cards anywhere on the site — no borders, no shadows, no fills. Grouping is done entirely with the rail, the rules and vertical space, which means the same layout primitive carries experience entries, project lists, awards and the writing index without any of them needing a different container.
+The page is a centred 1440px column with 20–30px of side padding. It opens with a masthead — the name and title on the left, the nav on the right — and then a very tall gap, `clamp(3.5rem, 11vw, 10rem)`, which is the single most recognisable thing about the reference and costs nothing but space.
 
-### Home page wireframe (1280px)
+Below that the page is two columns:
+
+- **The rail** (max 368px, `position: sticky`): the one-liner under a section rule, then the contact links, each in its own bordered row with a `↗` on the right. It is site chrome, identical on every page, and it stays in view while the content scrolls past.
+- **The content column** (flexible): a stack of sections. Each section is a 1px `--rule` above, a 13px SemiBold heading, 37px of air, then its records.
+
+Each record is itself two columns — **facts on the left, the account of the work on the right**, separated by a 1px `--hairline` running the full width above it. Experience entries put role / organisation / dates / location on the left and a summary plus bullets on the right; awards, project cards and posts put a date on the left and the content on the right. The same primitive carries all of them.
+
+There are still no cards anywhere — no fills, no shadows, no radii. `border-radius: 0` and `box-shadow: none` are global. Grouping is done entirely with the two hairline weights and vertical space.
+
+Below 800px — the reference's own breakpoint — the masthead stacks (identity, then nav), the rail moves above the content, and every record collapses to a single column with the facts above the prose. Nothing is hidden at any width.
+
+### Wireframe (1280px)
 
 ```
- ┌──────────────────────────────────────────────────────────────────────┐
- │  [skip to content]  (visible on focus, top-left)                     │
- │                                                                      │
- │        │ Pranav Gillella                                    ☾        │
- │        │ ━━━━━━━━━━━━━━━━━━                    (theme toggle)        │
- │        │ ← the one accent rule, draws once on load                   │
- │        │                                                             │
- │        │ Finance + CS at UIUC. Founder of Quant Labs LLC.            │
- │        │ Working toward quant trading and research.                  │
- │        │                                                             │
- │        │ GitHub   LinkedIn   prg6@illinois.edu   Résumé (PDF)        │
- │        │                                                             │
- │────────┼─────────────────────────────────────────────────────────────│  ← rule bleeds into gutter
- │        │                                                             │
- │        │ Now                                                         │
- │  2026  │ Freshman at UIUC — B.S. Finance (Gies), CS minor            │
- │        │ (Grainger).                                                 │
- │  2026  │ Running Quant Labs LLC — EarlyDMV and Protestly.            │
- │  2026  │ Quant self-study — backtester, Fama-French, Joshi's         │
- │        │ interview book.                                             │
- │        │                                                             │
- │────────┼─────────────────────────────────────────────────────────────│
- │        │                                                             │
- │        │ Selected projects                                           │
- │        │                                                             │
- │ Jun 26 │ EarlyDMV                                                    │
- │        │ A paid Texas DPS appointment rebooking service.             │
- │        │ Django · HTMX · Stripe · Cloudflare Tunnel                  │
- │        │                                                             │
- │ Jun 26 │ Protestly                                                   │
- │        │ An automated property tax protest pipeline for              │
- │        │ Denton County homeowners.                                   │
- │        │ Python · Claude API · Playwright · Django                   │
- │        │                                                             │
- │ Mar 26 │ MA crossover backtester                                     │
- │        │ A moving average crossover engine with walk-forward         │
- │        │ optimization, run on a paper portfolio.                     │
- │        │ Python · numpy · pandas · Alpaca API                        │
- │        │                                                             │
- │        │ All projects                                                │
- │        │                                                             │
- │────────┼─────────────────────────────────────────────────────────────│
- │        │                                                             │
- │        │ About   Experience   Projects   Résumé                      │
- │        │ prg6@illinois.edu   GitHub   LinkedIn                       │
- │        │                                                             │
- │        └── the rail: 1px --rule, runs the full page                  │
- └──────────────────────────────────────────────────────────────────────┘
-   ← 8rem gutter →│← 68ch text column →
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │  [skip to content]  (visible on focus, top-left)                       │
+ │                                                                        │
+ │  Pranav Gillella,               About  Experience  Projects  Résumé ◑  │
+ │  Founder, Quant Labs LLC                                               │
+ │                                                                        │
+ │                        ← clamp(3.5rem, 11vw, 10rem) of air             │
+ │                                                                        │
+ │  ──────────────────────    ──────────────────────────────────────────  │
+ │  Finance + CS at UIUC.     Work                                        │
+ │  Founder of Quant Labs                                                 │
+ │  LLC. Working toward       ──────────────────────────────────────────  │
+ │  quant trading and         Founder          A two-product software     │
+ │  research.                 Quant Labs LLC   company I run alone —      │
+ │                            Jun 2026 –       sole developer, designer   │
+ │  ──────────────────────    Present          and operator across…       │
+ │  prg6@illinois.edu    ↗    Carrollton, TX                              │
+ │  ──────────────────────                     • Drafted the Terms of     │
+ │  GitHub               ↗                       Service, Privacy Policy… │
+ │  ──────────────────────                     • Handle all customer…     │
+ │  LinkedIn             ↗                                                │
+ │  ──────────────────────                     │ EarlyDMV ↗               │
+ │  Résumé (PDF)         ↗                     │ A paid Texas DPS…        │
+ │  ──────────────────────                     │ • Cut appointment…       │
+ │                                                                        │
+ │  ↑ sticky rail             ↑ scrolls                                   │
+ │                                                                        │
+ │  ────────────────────────────────────────────────────────────────────  │
+ │  About  Experience  Projects  Résumé                                   │
+ │  prg6@illinois.edu  pranav.gillella1@gmail.com  GitHub  LinkedIn       │
+ │  © 2026 Pranav Gillella    Carrollton, TX                              │
+ └────────────────────────────────────────────────────────────────────────┘
+   ←   368px rail   →│←            content column             →
 ```
-
-At 375px the gutter is gone and the same page is a single column: name, rule, one-liner, links, then each section's entries with the date sitting inline above the title in `--muted` at `sm`.
 
 ### Navigation
 
-Top-of-page nav is deliberately absent. The home page *is* the nav — it links to everything. Interior pages get a single small "Pranav Gillella" link back to `/` above the `<h1>`, plus the full footer nav. This removes a horizontal element that would otherwise fight the rail, and it's honest about a six-page site: a persistent nav bar is furniture a site this size doesn't need.
+The original brief had no top nav — the home page *was* the nav. The reference puts a link opposite the name in the masthead, so the site now carries a persistent four-item nav there, at the same size as the name on screens ≥800px. The current page is marked with `aria-current="page"` and rendered in `--muted`.
 
-`/writing` is not linked from the footer or anywhere else until a real post exists.
+This is the one place the restyle added furniture. It earns it: with the home page no longer opening on the name and one-liner (the masthead and rail carry those on every page now), there needs to be a way between pages that is always visible.
+
+`/writing` is still not linked from the nav or the footer until a real post exists.
 
 ---
 
 ## 4. The one memorable element
 
-**The date rail.**
+**The masthead and the sticky rail, read as one object.**
 
-A single hairline running the full height of every page, with every date in Pranav's life right-flush against it in tabular figures — 2023 at the bottom of the experience page, Jun 2026 at the top, the whole thing readable as a column of numbers before you read a single word of prose.
+The name and title set at display size against an almost absurd amount of empty space, and then — permanently, on every page, never scrolling away — a narrow column holding the one-liner and four bordered link rows. Everything else on the site is a variation on one hairline-separated two-column record.
 
 It earns its place three ways:
 
-1. **It's the content.** Everything on this site is dated — four jobs, four projects, four awards, a degree, a graduation. Most personal sites bury dates in a meta line; here the chronology is the primary structure, which is the correct emphasis for someone whose story is "look how much I've shipped and how recently".
-2. **It's the subject.** A right-flush column of tabular figures against a rule is what a ledger looks like, and what a P&L looks like, and what a backtest output looks like. The form matches the person without a single illustration, icon or metaphor.
-3. **It costs nothing.** One grid template, one pseudo-element, one `font-variant-numeric: tabular-nums`. No JavaScript, no images, no layout shift, and it degrades to plain inline dates on mobile without losing information.
+1. **It is the same information on every page.** Who he is and how to reach him are not a section you scroll to; they are the frame the rest of the site sits inside. A recruiter who lands on `/projects/protestly` from a search result gets the identity and the email without a click.
+2. **It commits.** True black, no accent, no illustration, two typefaces doing two jobs, and one grid that never varies. The restraint is the statement.
+3. **It costs nothing.** One flex row, one `position: sticky`, no JavaScript, no images, no layout shift.
 
-**Implementation note.** The rail is drawn once as a `::before` on `.shell`,
-absolutely positioned at `calc(2rem + var(--gutter))` — the same x the grid puts
-the gutter's right edge at. The first pass drew it as a `border-right` on each
-row's date cell, which turned it into a dashed line the moment rows had vertical
-margins between them. A rail that is a single element cannot break.
-
-The accent rule under the name on the home page is the second-order moment — the only saturated colour above the fold, and the only animation on the site.
+**What was removed to get here.** The date rail — a vertical hairline with right-flush tabular dates in an 8rem gutter — was the original brief's memorable element, and it was good. It could not survive the reference's layout: the reference puts dates *inside* the left column of each record, next to the organisation and the location, which is incompatible with hoisting them into a page-wide margin. Dates are still `font-variant-numeric: tabular-nums` everywhere, so they still align within their column; they just no longer form a page-height ledger.
 
 ---
 
 ## 5. Review against the banned-defaults list
 
-Checked before writing any code. Where the first-pass plan matched, the revision is recorded.
+Re-checked after the restyle.
 
 | Generic default | Status |
 |---|---|
-| Cream bg + serif display + terracotta accent | **Clear.** Cool off-white `#F7F7F5`, no serif anywhere, indigo accent. |
-| Near-black + acid green / vermilion | **Clear.** Blue-black `#15171B` + indigo `#2F3BA2`. |
-| Identical rounded cards with the same grey shadow | **Clear.** There are no cards on the site. `border-radius: 0` and `box-shadow: none` are global. Grouping is rails, rules and space. |
-| Gradient washes, glassmorphism, floating blobs | **Clear.** Every surface is one flat token. No `linear-gradient`, no `backdrop-filter`, no decorative absolute-positioned shapes. |
-| Tracked-out all-caps eyebrow labels above headings | **REVISED.** First pass had `NOW`, `SELECTED PROJECTS`, `EXPERIENCE` as `letter-spacing: 0.08em; text-transform: uppercase` section labels. Cut. Section headings are now sentence-case `md`/600 in `--ink`, distinguished from body by the hairline above them, not by tracking. No `text-transform` in the stylesheet at all. |
-| Middle dots joining meta strings | **REVISED.** First pass had `Jun 2026 · Carrollton, TX · Founder` and `Django · HTMX · Stripe` interpuncts throughout. The meta line is now a `<dl>`-style pair or plain spacing; stack lists are `<ul>` with `display: flex; gap: 1rem` and no separator glyph. *(The wireframe above still shows `·` in the stack rows — that's ASCII shorthand for the gaps, not the shipped mark.)* |
-| Arrows appended to every link | **Clear.** No `→` after any link. "All projects" and "Read more" are plain underlined text. The one arrow on the site is the `←` on the back-to-home link on interior pages, where it indicates direction rather than decorating. |
-| Monospace for every small label | **REVISED.** First pass set the entire date rail in IBM Plex Mono, on the reasoning that dates are data. That is exactly the banned pattern with a justification attached. Revised: the rail uses **IBM Plex Sans with `font-variant-numeric: tabular-nums`**, which gives the same numeric alignment without the costume. Mono is now confined to `<code>` and `<pre>` on project pages. |
-| Fade-and-slide-up entrances on each section, hover animation on every card | **Clear.** No scroll-triggered animation of any kind, no `IntersectionObserver`, no hover transform. Links get an underline colour change on hover, 0ms. |
-| Numbered 01/02/03 markers on non-sequences | **Clear.** The only numbers in the margin are real dates. |
-| Stock illustrations | **Clear.** The only images on the site are project screenshots supplied by Pranav, an optional headshot, and `og.png`. |
+| Cream bg + serif display + terracotta accent | **Clear.** True black, no serif anywhere, no accent at all. |
+| Near-black + acid green / vermilion | **Clear.** Black and white with one grey. There is no hue on the site. |
+| Identical rounded cards with the same grey shadow | **Clear.** There are no cards. `border-radius: 0` and `box-shadow: none` are global. Grouping is hairlines and space. |
+| Gradient washes, glassmorphism, floating blobs | **Clear.** Every surface is one flat token. No `linear-gradient`, no `backdrop-filter`, no decorative shapes. |
+| Tracked-out all-caps eyebrow labels above headings | **Clear.** Section headings are sentence-case 13px/600 in `--ink`. No `text-transform` in the stylesheet at all. |
+| Middle dots joining meta strings | **Clear.** Facts are one per line in a flex column with a 2px gap; chip lists are `<ul>` with `gap` and no separator glyph. |
+| Arrows appended to every link | **REVISED.** The original brief banned these outright. The reference marks outbound links with `↗`, and in a design where links carry no underline outside running prose, that glyph *is* the affordance — it is the only thing distinguishing "GitHub" in the rail from a label. So `↗` now appears on links that leave the site or the page, and nowhere else: not on `/projects`, not on `All projects`, not on nav items. It is drawn by a `::after` on `.ext` rather than typed into the content, so it never lands in a copied string. |
+| Monospace for every small label | **Clear.** Mono is confined to `<code>` and `<pre>`. Dates use Schibsted Grotesk with `tabular-nums`, which gives numeric alignment without the costume. |
+| Fade-and-slide-up entrances, hover animation on every card | **Clear.** No scroll-triggered animation, no `IntersectionObserver`, no hover transform. Links get a 120ms colour transition and nothing else. |
+| Numbered 01/02/03 markers on non-sequences | **Clear.** The only numbers in a margin are real dates. |
+| Stock illustrations | **Clear.** The only images are project screenshots supplied by Pranav and `og.png`. |
 
 ---
 
 ## 6. Motion
 
-One deliberate page-load moment, on `/` only: the accent rule under the name animates its `transform: scaleX()` from 0 to 1 over 320ms with `ease-out`, once, on load. It is a rule that draws itself. Nothing else on the site moves.
+**None.** The original brief's one moment — the accent rule under the name drawing itself on load — went with the accent colour. Nothing on the site animates except a 120ms colour transition on link hover.
 
-Under `@media (prefers-reduced-motion: reduce)` the rule is simply present at full width with no animation, and a global rule sets `animation-duration: 0.01ms` and `transition-duration: 0.01ms` on everything.
-
-Because the rule occupies its final box from the first frame (only `transform` is animated, never `width` or `height`), the moment contributes zero to CLS.
+The global `prefers-reduced-motion` block remains, setting `animation-duration` and `transition-duration` to `0.01ms`, so the hover transition is dropped too for anyone who asks.
 
 ---
 
 ## 7. Theme
 
-Supports `prefers-color-scheme` natively, plus a manual toggle in the top-right of the home page and interior page headers.
+Dark is the base for everyone; light is available from a toggle.
 
-- Flicker-free: a small blocking inline script in `<head>` reads `localStorage.theme` and sets `data-theme` on `<html>` before first paint. No FOUC, no flash of the wrong mode.
-- The toggle is a real `<button>` with `aria-pressed`, reachable and operable by keyboard, with a visible `--accent` focus ring.
-- Three states: no stored preference means the OS decides; an explicit choice is stored and wins.
-- Every colour is defined on bare `:root` first, so the light palette is the base and dark is an override in two places (`@media (prefers-color-scheme: dark)` guarded against an explicit light choice, and `[data-theme="dark"]`).
+- Two states, not three. `prefers-color-scheme` is not consulted anywhere — see §1.
+- Flicker-free: a small blocking inline script in `<head>` reads `localStorage.theme` and sets `data-theme` on `<html>` before first paint. Because dark is the stylesheet default, that script only ever has to act for someone who chose light.
+- The toggle is a real `<button>` with `aria-pressed` and a label that says what pressing it will do, reachable and operable by keyboard, with a visible `--ink` focus ring.
+- `<meta name="theme-color" content="#000000">` so mobile browser chrome matches the page.
 
 ---
 
 ## 8. Responsive breakpoints
 
+Mobile-first. The base stylesheet is the 375px layout; everything else is added in `min-width` blocks at the reference's own steps.
+
 | Width | Layout |
 |---|---|
-| **375px** | Single column, 1.25rem side padding. Gutter collapsed, dates inline above titles. `xl` drops to 2rem. Footer nav wraps to two rows. |
-| **768px** | Same single column, wider padding, `xl` back to 2.5rem. Gutter still collapsed — 768px doesn't have room for an 8rem margin plus a 68ch measure. |
-| **1024px** | Gutter and rail appear. Dates move right-flush into the margin. This is the design's real form. |
-| **1280px** | Identical to 1024px, centred, with more surrounding whitespace. The measure never grows past 68ch. |
-
-Mobile-first: the base stylesheet is the 375px layout; the gutter is added in a single `min-width: 64rem` block.
+| **375px** | Single column, 20px side padding. Masthead stacks: identity, then nav at 13px with the toggle opposite. Rail above content. Records collapse to one column, facts above prose. |
+| **800px** (`50rem`) | The design's real form. Masthead goes to one row and the nav rises to display size. Rail and content split into two columns, rail becomes sticky. Records become two columns. |
+| **1200px** (`75rem`) | Display size steps 22px → 24px. |
+| **1280px** (`80rem`) | Body steps 15px → 16px. |
+| **1440px** | The content column stops growing and centres. |
 
 ---
 
 ## 9. What each page is for
 
-One job per page. If a sentence doesn't serve the job, it's cut.
+Unchanged by the restyle. One job per page. If a sentence doesn't serve the job, it's cut.
 
 | Page | Job |
 |---|---|
-| `/` | 60 seconds. Who he is, what he runs, what he's aiming at, three proofs, four links out. |
+| `/` | 60 seconds. What he's doing now, three proofs, links out. The identity and contact details are in the masthead and rail, so the page opens straight into the record. |
 | `/about` | The why. 150–250 words, first person, Carrollton to UIUC, why finance and CS together. Plus the short "outside of work" list. |
-| `/experience` | The full record for someone who's already interested — experience, leadership, education, skills, awards. The date rail does the most work here. |
+| `/experience` | The full record for someone who's already interested — work, leadership, education, skills, awards. |
 | `/projects` | Four projects, dated, one line each. |
 | `/projects/[slug]` | Depth for one thing. What it is → why I built it → what I built → results → links. |
 | `/resume` | Get the PDF. Plus an inline summary that mirrors it, for anyone who won't download a file. The PDF is **linked, not embedded** — see below. |

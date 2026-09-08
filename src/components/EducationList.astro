@@ -1,0 +1,19 @@
+---
+import Entry from './Entry.astro';
+import { education, type Job } from '../data/resume';
+
+/**
+ * Education has the same shape as a job once you read the credential as the
+ * role and the school as the organisation, so it renders through Entry rather
+ * than repeating the two-column markup.
+ */
+const asJobs: Job[] = education.map((ed) => ({
+  org: ed.school,
+  role: ed.credential,
+  dates: ed.dates,
+  location: ed.location,
+  bullets: ed.bullets,
+}));
+---
+
+{asJobs.map((job) => <Entry job={job} />)}

@@ -31,10 +31,16 @@ hand-written `@font-face` gives a preload hint and exactly one font request per
 family. The tradeoff is no cache-busting on the font files, which is the right
 trade for files that will not change.
 
-**One variable font file for the whole sans scale.** `ibm-plex-sans-latin-wght-normal.woff2`
-is 45KB and covers weights 100–700, so the 400/500/600 the site uses cost one
-request. Plex Mono ships no variable build, but it is only used for code at one
-weight, so a static 15KB file is the same cost either way.
+**One variable file per family.** Schibsted Grotesk (46KB) and Geist (29KB) each
+cover the whole weight axis, so the 400 and 600 the site uses cost one request
+apiece. Both are preloaded. Geist Mono (a third variable file) is not preloaded
+— only project pages with code blocks ever ask for it.
+
+**Two families rather than one.** The original build used IBM Plex Sans for
+everything. The restyle splits structure from running text: Schibsted Grotesk
+carries labels, names, headings and facts; Geist carries body copy and bullets.
+On a page that is mostly a grid of facts against paragraphs, two voices make the
+grid legible before you read a word. See `DESIGN.md` §2.
 
 **`satori` + `sharp` are devDependencies and the OG image is committed.**
 `npm run og` is run by hand and its output lives in `public/`. The build and the
@@ -53,24 +59,35 @@ deploy, and CI does not carry an image toolchain it needs once a year.
 set on `*` in the reset. This is a guardrail rather than a style: it means a
 card cannot appear later by accident from a copied snippet.
 
-**The rail is one element, not a border per row.** Drawn as a `::before` on
-`.shell`, absolutely positioned at `calc(2rem + var(--gutter))` to match where
-the grid puts the gutter's right edge. The first implementation put a
-`border-right` on each row's date cell; the moment rows got vertical margins the
-"rail" became a dashed line. See `DESIGN.md` §4.
+**One record primitive, used everywhere.** Experience entries, education,
+awards, project cards and posts are all a hairline above a two-column grid:
+facts left, prose right. `Entry` renders the first two, `Row` the rest, and
+`EducationList` maps an `Education` onto a `Job` rather than repeating the
+markup. Adding a section means composing these, not writing layout.
 
-**Footer content is indented into the text column, but the footer's divider is
-not.** Shifting the whole `<footer>` right also shifted its divider, so the
-footer rule stopped short of where every other rule on the page starts. Only
-`.footer__nav` and `.footer__meta` are shifted.
+**Both hairline weights are 1px; the colour carries the difference.** The
+reference draws section separators at 1px `#383838` and entry separators at
+0.5px of the same colour. Sub-pixel borders round to a full pixel inconsistently
+across browsers and zoom levels, so entry separators use a dimmer `#2A2A2A` at
+1px instead. Same result, stable everywhere.
 
-**No persistent top navigation.** The home page links to everything, so on a
-six-page site a nav bar is furniture. Interior pages get a back link to `/`
-placed in the gutter, left of the rail, plus the full footer nav.
+**The measure is a fixed length, not `ch`.** `68ch` in Geist rendered about 95
+characters to the line, because Geist's `0` glyph is far narrower than its
+average lowercase letter. Replaced with `--measure: 34rem`, applied to
+`.prose`, `.entry__body` and `.row__body` alike, which measures 72–81 characters
+in the browser depending on the character mix.
 
-**The type scale grew from five steps to six.** A `section` step at 1.25rem was
-added mid-build because section `<h2>`s and entry `<h3>`s at the same size made
-"Work" and "Quant Labs LLC" read as siblings. Recorded in `DESIGN.md` §2.
+**A persistent top navigation was added with the restyle.** The original build
+had none — the home page was the nav. The reference puts a link opposite the
+name in the masthead, and with the identity and contact links now living in
+site chrome rather than on the home page, there needs to be a visible way
+between pages. Four items, `aria-current` on the current one.
+
+**The date rail was removed, not ported.** It was the original design's
+memorable element. The reference puts dates inside each record's left column
+next to the organisation and location, which is incompatible with hoisting them
+into a page-wide margin. Dates keep `tabular-nums`, so they still align within
+their column. See `DESIGN.md` §4.
 
 **Tailwind is used for the reset and nothing else.** All styling is hand-written
 CSS with custom properties and component-scoped `<style>` blocks. Tailwind's
@@ -83,23 +100,22 @@ out of preflight and are fixed explicitly in `global.css`: headings inherit
 
 ## Behaviour
 
-**A manual theme toggle, in addition to `prefers-color-scheme`.** The brief made
-it optional. It is a real `<button>` with `aria-pressed`, keyboard operable, and
-the stored choice overrides the OS in both directions.
+**Dark is the default for everyone; `prefers-color-scheme` is not read at all.**
+The design is black the way the reference is black. Following a light OS
+preference into a palette the design was not drawn for produces a different,
+worse site. The toggle still offers light, and that explicit choice is the only
+thing that switches — which also collapsed the toggle from three states to two
+and removed the `matchMedia` fallback it previously needed to report its own
+state honestly.
 
-**The toggle reads `matchMedia` when no choice is stored.** With no explicit
-preference, `<html>` carries no `data-theme` and the OS decides. Reading only
-the attribute reported `aria-pressed="false"` to screen readers on a dark OS —
-the button lied about its own state. It now falls back to the media query, and
-re-syncs if the OS flips while the page is open.
-
-**One page-load animation, on `/` only.** The accent rule under the name scales
-from 0 to 1 over 320ms. Only `transform` animates, never `width`, so it
-contributes nothing to layout shift. Measured CLS is 0 on every page.
+**No animation anywhere.** The one page-load moment — the accent rule under the
+name drawing itself — went with the accent colour. Only a 120ms colour
+transition on link hover remains, and the `prefers-reduced-motion` block drops
+that too.
 
 **`localStorage` access is wrapped in `try/catch` in both directions.** It
-throws outright in some privacy configurations. The theme falls back to the OS
-rather than the page failing to render.
+throws outright in some privacy configurations. The theme falls back to the
+default dark palette rather than the page failing to render.
 
 ---
 

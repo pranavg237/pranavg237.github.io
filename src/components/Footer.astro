@@ -22,7 +22,6 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  <div class="divider"></div>
   <nav class="footer__nav" aria-label="Footer">
     <ul class="footer__list">
       {
@@ -33,7 +32,7 @@ const year = new Date().getFullYear();
         ))
       }
     </ul>
-    <ul class="footer__list">
+    <ul class="footer__list footer__list--quiet">
       {
         contact.map((c) => (
           <li>
@@ -43,34 +42,52 @@ const year = new Date().getFullYear();
       }
     </ul>
   </nav>
-  <p class="footer__meta tnum"><span>© {year} {profile.name}</span><span>Carrollton, TX</span></p>
+  <p class="footer__meta tnum">
+    <span>© {year} {profile.name}</span><span>{profile.location}</span>
+  </p>
 </footer>
 
 <style>
   .footer {
-    margin-top: 1rem;
+    border-top: 1px solid var(--rule);
+    margin-top: 2.5rem;
+    padding: 30px 0 40px;
   }
 
   .footer__nav {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.9rem;
   }
 
   .footer__list {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.25rem;
+    gap: 0.35rem 1.25rem;
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 0.875rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-label);
+    letter-spacing: -0.005em;
+  }
+
+  .footer__list--quiet {
+    font-weight: 400;
+    font-size: var(--fs-small);
+    color: var(--muted);
+  }
+
+  .footer__list--quiet a:hover {
+    color: var(--ink);
   }
 
   .footer__meta {
     color: var(--muted);
-    font-size: 0.875rem;
-    margin-top: 1.5rem;
+    font-family: var(--font-sans);
+    font-size: var(--fs-small);
+    margin-top: 2rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.25rem 1.25rem;
@@ -81,18 +98,6 @@ const year = new Date().getFullYear();
       flex-direction: row;
       justify-content: space-between;
       gap: 2rem;
-    }
-  }
-
-  @media (min-width: 64rem) {
-    /*
-      Footer content sits in the text column so the rail runs to its left
-      rather than through it. The divider is left alone so it bleeds across
-      the gutter by exactly as much as every other divider on the page.
-    */
-    .footer__nav,
-    .footer__meta {
-      margin-left: calc(var(--gutter) + var(--gutter-gap));
     }
   }
 </style>

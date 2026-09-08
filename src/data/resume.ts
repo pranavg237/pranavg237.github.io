@@ -54,6 +54,11 @@ export interface SkillGroup {
 
 export const profile = {
   name: 'Pranav Gillella',
+  /**
+   * The masthead's second line. Short enough to sit beside the name at
+   * display size, and the same claim BaseHead already makes in JSON-LD.
+   */
+  title: 'Founder, Quant Labs LLC',
   /** The one line, verbatim from PROMPT.md. */
   oneLiner:
     'Finance + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
@@ -66,9 +71,9 @@ export const profile = {
 
 /** Footer and home-page links, in order. */
 export const links: readonly Link[] = [
+  { label: profile.email, href: `mailto:${profile.email}` },
   { label: 'GitHub', href: profile.github },
   { label: 'LinkedIn', href: profile.linkedin },
-  { label: profile.email, href: `mailto:${profile.email}` },
   { label: 'Résumé (PDF)', href: '/resume.pdf' },
 ];
 
@@ -175,7 +180,9 @@ export const experience: readonly Job[] = [
   {
     org: 'Snow City Cafe',
     role: 'Cafe Associate',
-    dates: '2025 – 2026',
+    // Months confirmed by Pranav; the résumé PDF still carries the vaguer
+    // "2025 – 2026" span and should be corrected to match.
+    dates: 'Feb 2026 – Aug 2026',
     location: 'Carrollton, TX',
     bullets: [
       'Handled customer service, food preparation and cash handling in a high-volume cafe.',

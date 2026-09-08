@@ -1,14 +1,14 @@
 ---
 /**
- * The rail. See DESIGN.md §4.
+ * The lightweight sibling of Entry: a hairline, a date in the left column and
+ * free content on the right. Used for awards, education, project cards and
+ * posts — anything whose left column is a date rather than a role and an org.
  *
- * Under 1024px this is a plain block with the date above the content.
- * At 1024px and up it becomes a grid: date right-flush in an 8rem gutter,
- * against a 1px rail, in tabular figures.
+ * The empty left column on undated rows is deliberate: it keeps every right
+ * column on the page starting at the same x position.
  */
 
 interface Props {
-  /** Rows without a date leave the gutter empty; the rail runs on regardless. */
   date?: string;
   /** Render the date inside a <time datetime> when a machine-readable value exists. */
   datetime?: string;

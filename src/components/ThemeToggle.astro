@@ -1,8 +1,9 @@
 ---
 /**
- * Three states: no stored preference means the OS decides; an explicit choice
- * is stored in localStorage and wins. The <html data-theme> attribute is set by
- * a blocking script in Base.astro before first paint, so there is no flash.
+ * Two states, not three. The stylesheet is dark by default for everyone, so
+ * the OS preference is not consulted at all — only an explicit choice, stored
+ * in localStorage and applied to <html data-theme> by a blocking script in
+ * Base.astro before first paint.
  */
 ---
 
@@ -10,8 +11,8 @@
   id="theme-toggle"
   type="button"
   class="toggle"
-  aria-pressed="false"
-  aria-label="Switch to dark theme"
+  aria-pressed="true"
+  aria-label="Switch to light theme"
 >
   <span aria-hidden="true" class="toggle__glyph"></span>
 </button>
@@ -20,10 +21,10 @@
   .toggle {
     appearance: none;
     background: transparent;
-    border: 1px solid var(--rule);
+    border: 1px solid var(--hairline);
     color: var(--muted);
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     display: grid;
     place-items: center;
     cursor: pointer;
@@ -33,25 +34,17 @@
   }
 
   .toggle:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--ink);
+    color: var(--ink);
   }
 
   .toggle__glyph {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.6875rem;
+    height: 0.6875rem;
     border-radius: 50%;
     border: 1px solid currentColor;
-    /* A half-filled disc: the "sun/moon" without an icon font. */
-    background: linear-gradient(
-      to right,
-      currentColor 0 50%,
-      transparent 50% 100%
-    );
-  }
-
-  /* Explicit dark choice. */
-  :global(html[data-theme='dark']) .toggle__glyph {
+    /* A half-filled disc: the "sun/moon" without an icon font. Filled on the
+       right while dark, on the left while light. */
     background: linear-gradient(
       to right,
       transparent 0 50%,
@@ -59,40 +52,20 @@
     );
   }
 
-  /* Following a dark OS with no explicit choice stored. */
-  @media (prefers-color-scheme: dark) {
-    :global(html:not([data-theme='light'])) .toggle__glyph {
-      background: linear-gradient(
-        to right,
-        transparent 0 50%,
-        currentColor 50% 100%
-      );
-    }
-
-    /* An explicit light choice still wins over the OS. */
-    :global(html[data-theme='light']) .toggle__glyph {
-      background: linear-gradient(
-        to right,
-        currentColor 0 50%,
-        transparent 50% 100%
-      );
-    }
+  :global(html[data-theme='light']) .toggle__glyph {
+    background: linear-gradient(
+      to right,
+      currentColor 0 50%,
+      transparent 50% 100%
+    );
   }
 </style>
 
 <script>
   const btn = document.getElementById('theme-toggle');
-  const media = window.matchMedia('(prefers-color-scheme: dark)');
 
-  /**
-   * With no explicit choice stored, <html> carries no data-theme and the OS
-   * decides. Reading only the attribute would report the wrong state to
-   * assistive tech in that case, so fall back to the media query.
-   */
-  const isDark = () => {
-    const attr = document.documentElement.dataset.theme;
-    return attr ? attr === 'dark' : media.matches;
-  };
+  /** Dark unless light was explicitly chosen. Mirrors the stylesheet. */
+  const isDark = () => document.documentElement.dataset.theme !== 'light';
 
   const sync = () => {
     if (!btn) return;
@@ -114,9 +87,6 @@
     }
     sync();
   });
-
-  // Keep the reported state correct if the OS flips while we are following it.
-  media.addEventListener('change', sync);
 
   sync();
 </script>

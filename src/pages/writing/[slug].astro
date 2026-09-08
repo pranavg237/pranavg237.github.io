@@ -2,7 +2,7 @@
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
-import Row from '../../components/Row.astro';
+import Section from '../../components/Section.astro';
 
 export const getStaticPaths = (async () => {
   const posts = (await getCollection('writing')).filter((p) => !p.data.draft);
@@ -23,33 +23,41 @@ const formatted = post.data.date.toLocaleDateString('en-US', {
 });
 ---
 
-<Base title={`${post.data.title} — Pranav Gillella`} description={post.data.description}>
-  <Row date={formatted} datetime={post.data.date.toISOString()}>
-    <h1 class="post__h1">{post.data.title}</h1>
-    <p class="post__desc">{post.data.description}</p>
-  </Row>
+<Base
+  title={`${post.data.title} — Pranav Gillella`}
+  description={post.data.description}
+>
+  <Section gap="tight">
+    <div class="entry entry--flush">
+      <div class="entry__meta">
+        <h1 class="page-title">{post.data.title}</h1>
+        <p class="entry__facts">
+          <time class="tnum" datetime={post.data.date.toISOString()}>
+            {formatted}
+          </time>
+        </p>
+      </div>
 
-  <div class="divider"></div>
+      <div class="entry__body">
+        <p class="lede">{post.data.description}</p>
+        <div class="prose">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </Section>
 
-  <Row class="prose">
-    <Content />
-  </Row>
-
-  <div class="divider"></div>
-
-  <Row>
-    <p><a href="/writing">All writing</a></p>
-  </Row>
+  <Section gap="tight">
+    <p class="more"><a href="/writing">All writing</a></p>
+  </Section>
 </Base>
 
 <style>
-  .post__h1 {
-    font-size: 1.5rem;
+  .lede {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-entry);
+    line-height: 1.35;
     letter-spacing: -0.01em;
-  }
-
-  .post__desc {
-    color: var(--muted);
-    margin-top: 0.5rem;
   }
 </style>

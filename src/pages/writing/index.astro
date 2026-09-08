@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
 import Row from '../../components/Row.astro';
 
 const posts = (await getCollection('writing'))
@@ -20,42 +21,25 @@ const fmt = (d: Date) =>
   title="Writing — Pranav Gillella"
   description="Notes on quant research, building software, and running two businesses."
 >
-  <Row>
-    <h1>Writing</h1>
-  </Row>
-
-  <div class="divider"></div>
-
-  {
-    posts.length === 0 ? (
-      <Row>
-        <p>Nothing published yet.</p>
-      </Row>
-    ) : (
-      posts.map((post) => (
-        <Row date={fmt(post.data.date)} datetime={post.data.date.toISOString()}>
-          <h2 class="post__title">
-            <a href={`/writing/${post.id}`}>{post.data.title}</a>
-          </h2>
-          <p>{post.data.description}</p>
+  <Section title="Writing" as="h1" gap="rows">
+    {
+      posts.length === 0 ? (
+        <Row>
+          <p class="note">Nothing published yet.</p>
         </Row>
-      ))
-    )
-  }
+      ) : (
+        posts.map((post) => (
+          <Row
+            date={fmt(post.data.date)}
+            datetime={post.data.date.toISOString()}
+          >
+            <h2 class="card__title">
+              <a href={`/writing/${post.id}`}>{post.data.title}</a>
+            </h2>
+            <p>{post.data.description}</p>
+          </Row>
+        ))
+      )
+    }
+  </Section>
 </Base>
-
-<style>
-  .post__title {
-    font-size: 1.0625rem;
-  }
-
-  .post__title a {
-    color: var(--ink);
-    text-decoration-color: var(--rule);
-  }
-
-  .post__title a:hover {
-    color: var(--accent);
-    text-decoration-color: currentColor;
-  }
-</style>

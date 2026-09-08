@@ -1,43 +1,47 @@
 ---
 import Base from '../layouts/Base.astro';
-import Row from '../components/Row.astro';
+import Section from '../components/Section.astro';
 ---
 
 <Base
   title="Page not found — Pranav Gillella"
   description="That page doesn't exist."
 >
-  <Row date="404">
-    <h1>That page doesn't exist</h1>
-    <p class="lede">
+  <Section title="404" as="h1" gap="tight">
+    <p class="lede">That page doesn't exist.</p>
+    <p class="note">
       The link may be old, or I may have moved something. Everything on the site
-      is reachable from the home page.
+      is reachable from the nav above.
     </p>
-    <ul class="plain">
+    <ul class="links">
       <li><a href="/">Home</a></li>
       <li><a href="/about">About</a></li>
       <li><a href="/experience">Experience</a></li>
       <li><a href="/projects">Projects</a></li>
       <li><a href="/resume">Résumé</a></li>
     </ul>
-  </Row>
+  </Section>
 </Base>
 
 <style>
-  h1 {
-    font-size: 1.5rem;
-  }
-
   .lede {
-    margin-top: 0.75rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-entry);
   }
 
-  .plain {
+  .links {
     list-style: none;
     padding: 0;
-    margin-top: 1.25rem;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem 1.5rem;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--fs-label);
+  }
+
+  .links a:hover {
+    color: var(--muted);
   }
 </style>

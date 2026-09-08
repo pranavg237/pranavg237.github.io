@@ -3,74 +3,122 @@
 /* ==========================================================================
    Fonts — self-hosted, copied from @fontsource into /public/fonts so the
    path is stable enough to <link rel="preload">. No external requests.
+
+   Two families, split by job, as in the reference design:
+   Schibsted Grotesk carries every label, name, heading and fact; Geist
+   carries running body copy and bullets. Geist Mono is for code only.
    ========================================================================== */
 
 @font-face {
-  font-family: "IBM Plex Sans Var";
+  font-family: "Schibsted Grotesk Var";
   font-style: normal;
-  font-weight: 100 700;
+  font-weight: 400 700;
   font-display: swap;
-  src: url("/fonts/ibm-plex-sans-latin-wght-normal.woff2") format("woff2-variations");
+  src: url("/fonts/schibsted-grotesk-latin-wght-normal.woff2")
+    format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
     U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-  font-family: "IBM Plex Mono";
+  font-family: "Geist Var";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 400 700;
   font-display: swap;
-  src: url("/fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+  src: url("/fonts/geist-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Geist Mono Var";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/fonts/geist-mono-latin-wght-normal.woff2")
+    format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
     U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191,
     U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* ==========================================================================
-   Tokens — light is the base; dark is an override in exactly two places.
+   Tokens
+
+   Dark is the base and the default for everyone, regardless of OS setting —
+   this design is black, the way the reference is black, and following a light
+   OS into a palette the design was not drawn for makes it a different site.
+   The toggle still offers light for anyone who wants it; that explicit choice
+   is the only thing that switches.
    ========================================================================== */
 
 :root {
-  --paper: #f7f7f5;
-  --ink: #15171b;
-  --muted: #5c616a;
-  --rule: #e2e1dd;
-  --accent: #2f3ba2;
-  --accent-soft: #e8e9f7;
+  --paper: #000;
+  --ink: #fff;
+  --muted: #ababab;
+  /* Section separators. */
+  --rule: #383838;
+  /* Entry separators — the reference's 0.5px #383838, as a colour instead,
+     because sub-pixel borders round to 1px inconsistently across browsers. */
+  --hairline: #2a2a2a;
 
-  --font-sans: "IBM Plex Sans Var", ui-sans-serif, system-ui, -apple-system,
+  --font-sans: "Schibsted Grotesk Var", ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-text: "Geist Var", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono: "Geist Mono Var", ui-monospace, "SFMono-Regular", Menlo,
+    monospace;
+
+  /* Type scale, stepped at the reference's own breakpoints (800 / 1200). */
+  --fs-display: 1.25rem; /* 20px — name, nav */
+  --fs-entry: 1rem; /* 16px — entry titles */
+  --fs-body: 0.9375rem; /* 15px — body, bullets, facts */
+  --fs-label: 0.8125rem; /* 13px — section headings, rail links */
+  --fs-small: 0.75rem; /* 12px — secondary rail links, chips */
 
   /* Layout */
-  --measure: 68ch;
-  --gutter: 8rem;
-  --gutter-gap: 2rem;
+  --page-max: 1440px;
+  --rail-w: 368px;
+  --col-gap: 20px;
+  /*
+     A fixed width rather than `ch`: Geist's "0" is much narrower than its
+     average lowercase letter, so a ch-based measure ran ~95 characters to the
+     line. 36rem holds ~75, which is what the number was meant to mean.
+  */
+  --measure: 34rem;
 
+  color-scheme: dark;
+}
+
+/* The one explicit opt-out. Nothing here keys off prefers-color-scheme. */
+:root[data-theme="light"] {
+  --paper: #fff;
+  --ink: #0a0a0a;
+  --muted: #5c5c5c;
+  --rule: #d4d4d4;
+  --hairline: #e6e6e6;
   color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --paper: #101114;
-    --ink: #e7e7e4;
-    --muted: #969ca6;
-    --rule: #26282d;
-    --accent: #a6aeff;
-    --accent-soft: #1b1d33;
-    color-scheme: dark;
+@media (min-width: 50rem) {
+  :root {
+    --fs-display: 1.375rem; /* 22px */
+    --col-gap: 20px;
   }
 }
 
-:root[data-theme="dark"] {
-  --paper: #101114;
-  --ink: #e7e7e4;
-  --muted: #969ca6;
-  --rule: #26282d;
-  --accent: #a6aeff;
-  --accent-soft: #1b1d33;
-  color-scheme: dark;
+@media (min-width: 75rem) {
+  :root {
+    --fs-display: 1.5rem; /* 24px */
+  }
+}
+
+@media (min-width: 80rem) {
+  :root {
+    --fs-body: 1rem; /* 16px */
+  }
 }
 
 /* ==========================================================================
@@ -95,50 +143,32 @@ body {
   margin: 0;
   background-color: var(--paper);
   color: var(--ink);
-  font-family: var(--font-sans);
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: 1.4;
   font-weight: 400;
+  letter-spacing: -0.005em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
+/*
+  Every heading is Schibsted Grotesk SemiBold with the reference's tight
+  tracking. Sizes are set per role below rather than by tag, so the same tag
+  can be a section label in one place and an entry title in another.
+*/
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5 {
+  font-family: var(--font-sans);
   font-weight: 600;
-  line-height: 1.25;
+  font-size: var(--fs-entry);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
   margin: 0;
   /* Sentence case everywhere. No text-transform in this stylesheet. */
-}
-
-/*
-  Tailwind's preflight resets headings to inherit their size, so the type scale
-  is declared here explicitly. Steps match DESIGN.md §2: xl / lg / md.
-  Project and post pages override h1 to `lg` locally.
-*/
-h1 {
-  font-size: 2rem;
-  letter-spacing: -0.015em;
-}
-
-h2,
-h3,
-h4 {
-  font-size: 1.0625rem;
-}
-
-/* Section headings — the one step between `xl` and `md`. See DESIGN.md §2. */
-.row--head > .row__body > h2 {
-  font-size: 1.25rem;
-  letter-spacing: -0.005em;
-}
-
-@media (min-width: 30rem) {
-  h1 {
-    font-size: 2.5rem;
-  }
 }
 
 p,
@@ -148,19 +178,23 @@ dl {
   margin: 0;
 }
 
+/*
+  Links carry no underline by default: in this design a link is marked by the
+  ↗ glyph, by sitting in a bordered row, or by being a title. Underlines come
+  back for links inside running prose, where nothing else distinguishes them.
+*/
 a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 0.18em;
-  text-decoration-thickness: 1px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 120ms ease-out;
 }
 
 a:hover {
-  text-decoration-thickness: 2px;
+  color: var(--muted);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -187,8 +221,8 @@ pre {
   line-height: 1.55;
   overflow-x: auto;
   padding: 1rem 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
   margin: 1.5rem 0;
   background: transparent;
 }
@@ -197,10 +231,22 @@ pre code {
   font-size: inherit;
 }
 
-/* Every numeral on the site aligns. This is what makes the rail work. */
+/* Every numeral on the site aligns. */
 time,
 .tnum {
   font-variant-numeric: tabular-nums lining-nums;
+}
+
+/*
+  The outbound marker. Set on the element itself rather than typed into the
+  content so it never ends up in a copied string or read aloud twice.
+*/
+.ext::after {
+  content: " ↗";
+  font-size: 0.72em;
+  line-height: 1;
+  vertical-align: 0.18em;
+  white-space: nowrap;
 }
 
 /* ==========================================================================
@@ -215,8 +261,10 @@ time,
   padding: 0.5rem 0.75rem;
   background: var(--paper);
   color: var(--ink);
-  border: 1px solid var(--accent);
-  text-decoration: none;
+  border: 1px solid var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--fs-label);
+  font-weight: 600;
   transform: translateY(-200%);
 }
 
@@ -225,119 +273,444 @@ time,
 }
 
 /* ==========================================================================
-   The rail — the one memorable element. See DESIGN.md §4.
+   Shell — the page frame
 
-   Under 1024px: a single column, dates inline above each entry.
-   1024px and up: an 8rem gutter holding right-flush tabular dates, with a
-   1px rail between gutter and text column.
+   A centred 1440px column with a tall gap under the masthead, then two
+   columns: a sticky rail carrying the one-liner and the contact links, and
+   the content column that scrolls past it. Below 800px the two stack.
    ========================================================================== */
 
 .shell {
-  max-width: calc(var(--gutter) + var(--gutter-gap) + var(--measure));
+  max-width: var(--page-max);
   margin-inline: auto;
-  padding-inline: 1.25rem;
-  padding-block: 2.5rem 4rem;
+  padding: 20px 20px 10px;
 }
 
-.row {
+.masthead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding-bottom: clamp(3.5rem, 11vw, 10rem);
+}
+
+@media (min-width: 50rem) {
+  .masthead {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+}
+
+.masthead__id {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-display);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+.masthead__name {
   display: block;
+  color: var(--ink);
 }
 
-/* Vertical rhythm between entries. Section headings sit closer to the entry
-   they introduce than entries sit to each other. */
-.row + .row {
-  margin-top: 2rem;
+.masthead__title {
+  display: block;
+  color: var(--muted);
 }
 
-.row--head + .row {
-  margin-top: 1rem;
+.masthead__nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 1.1rem;
+  list-style: none;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-label);
+  letter-spacing: -0.005em;
+}
+
+.masthead__nav a[aria-current="page"] {
+  color: var(--muted);
+}
+
+/* At the reference's own breakpoint the nav rises to the size of the name. */
+@media (min-width: 50rem) {
+  .masthead__nav ul {
+    font-size: var(--fs-display);
+    line-height: 1.3;
+    gap: 0.25rem 1.35rem;
+  }
+}
+
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+@media (min-width: 50rem) {
+  .shell {
+    padding: 20px 30px 10px;
+  }
+
+  .columns {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--col-gap);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The rail
+   -------------------------------------------------------------------------- */
+
+.rail {
+  flex: 1 0 0;
+  max-width: var(--rail-w);
+  width: 100%;
+  min-width: 1px;
+}
+
+@media (min-width: 50rem) {
+  .rail {
+    position: sticky;
+    top: 20px;
+    padding-right: 10px;
+  }
+}
+
+.rail__lede {
+  border-top: 1px solid var(--rule);
+  padding: 30px 40px 40px 6px;
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  max-width: 420px;
+}
+
+.rail__links {
+  list-style: none;
+  padding: 0;
+}
+
+.rail__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 1px solid var(--hairline);
+  padding: 12px 6px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* The email is the one the site wants you to use, so it gets the label size
+   and weight while the rest stay quiet. Matches the reference exactly. */
+.rail__link--primary {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+/* --------------------------------------------------------------------------
+   The content column
+   -------------------------------------------------------------------------- */
+
+.content {
+  flex: 1 0 0;
+  min-width: 1px;
+  width: 100%;
+}
+
+@media (min-width: 50rem) {
+  .content {
+    padding-left: 20px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Sections
+   -------------------------------------------------------------------------- */
+
+.section {
+  border-top: 1px solid var(--rule);
+  padding: 30px 0 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 37px;
+}
+
+/* The last section on a page does not need 80px of air above the footer. */
+.section:last-of-type {
+  padding-bottom: 40px;
+}
+
+.section__title {
+  font-size: var(--fs-label);
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+.section__body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Multi-paragraph records: jobs, education. */
+.section__body--entries {
+  gap: 50px;
+}
+
+/* One- or two-line records: awards, project cards, posts. */
+.section__body--rows {
+  gap: 24px;
+}
+
+/* A single block of prose or one list, not a run of separated records. */
+.section__body--tight {
+  gap: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Entries and rows — the two-column record
+
+   Facts on the left, the account of the work on the right, separated by a
+   hairline that runs the full width above each one. Under 800px the two
+   columns stack and the hairline stays.
+   -------------------------------------------------------------------------- */
+
+.row,
+.entry {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  border-top: 1px solid var(--hairline);
+  padding-top: 20px;
+}
+
+/* The first entry under a section heading already has the section rule above
+   it, but the reference draws both, and the 37px gap keeps them distinct. */
+
+@media (min-width: 50rem) {
+  .row,
+  .entry {
+    /*
+      The reference splits these 50/50. Its entries carry two short bullets;
+      these carry up to six long ones, so the account of the work gets the
+      larger share and the facts column stops at a comfortable label width.
+    */
+    grid-template-columns: minmax(180px, 1fr) minmax(300px, 1.9fr);
+    gap: 30px;
+  }
+}
+
+/* Rows whose left column is only a date do not need to reserve label width. */
+@media (min-width: 50rem) {
+  .row {
+    grid-template-columns: minmax(140px, 0.6fr) minmax(300px, 2.4fr);
+  }
+}
+
+/* The opening entry on a detail page: the section rule above it is already
+   the separator, so it does not draw a second one. */
+.entry--flush {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* The h1 of a detail page. Larger than an entry title, quieter than the name
+   in the masthead, which is the only thing on the page set larger. */
+.page-title {
+  font-size: var(--fs-display);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.entry__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.entry__title {
+  font-size: var(--fs-entry);
+  color: var(--ink);
+}
+
+/* Organisation, dates, location — one fact per line, tight. */
+.entry__facts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+}
+
+.entry__facts a:hover {
+  color: var(--ink);
+}
+
+.entry__body {
+  min-width: 1px;
+  max-width: var(--measure);
+}
+
+.entry__body > * + * {
+  margin-top: 0.9rem;
 }
 
 .row__date {
-  display: block;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
   color: var(--muted);
-  font-size: 0.875rem;
-  line-height: 1.5;
   font-variant-numeric: tabular-nums lining-nums;
-  margin-bottom: 0.15rem;
+}
+
+.row__body {
+  min-width: 1px;
+  max-width: var(--measure);
 }
 
 .row__body > * + * {
   margin-top: 0.5rem;
 }
 
-/* A section divider that bleeds left across the gutter. */
-.divider {
-  border-top: 1px solid var(--rule);
-  margin-block: 2.75rem;
+/* --------------------------------------------------------------------------
+   Bullets
+   -------------------------------------------------------------------------- */
+
+.bullets {
+  list-style: disc;
+  padding-left: 1.15rem;
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  color: var(--ink);
 }
 
-@media (min-width: 64rem) {
-  .shell {
-    padding-inline: 2rem;
-    position: relative;
-  }
+.bullets li + li {
+  margin-top: 0.55rem;
+}
 
-  /*
-    The rail. Drawn once on the shell rather than as a border on each row, so it
-    runs unbroken from the top of the page to the bottom of the footer.
-    Its x position mirrors the grid: shell padding, then the full gutter column.
-  */
-  .shell::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: calc(2rem + var(--gutter));
-    width: 1px;
-    background-color: var(--rule);
-    pointer-events: none;
-  }
+.bullets li::marker {
+  color: var(--muted);
+}
 
-  .row {
-    display: grid;
-    grid-template-columns: var(--gutter) var(--gutter-gap) minmax(0, 1fr);
-    align-items: start;
-  }
+/* An unmarked list — used where each line is a fact, not an argument. */
+.plain {
+  list-style: none;
+  padding: 0;
+}
 
-  .row__date {
-    grid-column: 1;
-    text-align: right;
-    padding-right: var(--gutter-gap);
-    margin-bottom: 0;
-    /* Optically align the small date with the first line of the title. */
-    padding-top: 0.2rem;
-  }
+.plain li + li {
+  margin-top: 0.4rem;
+}
 
-  .row__body {
-    grid-column: 3;
-  }
+/* --------------------------------------------------------------------------
+   Cards — the shared vocabulary of the three index pages
 
-  .divider {
-    margin-left: calc(-1 * (var(--gutter) + var(--gutter-gap)));
-  }
+   Not cards in the boxed sense. A title, a line of description and a quiet
+   row of tags, inside a Row like everything else.
+   -------------------------------------------------------------------------- */
+
+.card__title {
+  font-size: var(--fs-entry);
+}
+
+.card__title a:hover {
+  color: var(--muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1rem;
+  list-style: none;
+  padding: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-small);
+  letter-spacing: -0.01em;
+}
+
+/* A link that ends a section — "All projects", "the résumé". */
+.more {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-label);
+  letter-spacing: -0.005em;
+}
+
+.more a:hover {
+  color: var(--muted);
+}
+
+/* Secondary running copy: the note under a heading, a credential line. */
+.note {
+  color: var(--muted);
 }
 
 /* ==========================================================================
    Prose — project pages and posts
    ========================================================================== */
 
+.prose {
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  max-width: var(--measure);
+}
+
 .prose > * + * {
   margin-top: 1.1rem;
 }
 
-.prose h2 {
-  font-size: 1.0625rem;
-  margin-top: 2.5rem;
-}
-
-/* The divider above already provides the separation. */
 .prose > :first-child {
   margin-top: 0;
 }
 
+/* Inside running prose nothing else marks a link, so the underline returns. */
+.prose a,
+.rail__lede a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  text-decoration-color: var(--muted);
+}
+
+.prose a:hover,
+.rail__lede a:hover {
+  color: var(--ink);
+  text-decoration-color: currentColor;
+}
+
+.prose h2 {
+  font-size: var(--fs-entry);
+  margin-top: 2.5rem;
+}
+
 .prose h3 {
-  font-size: 1.0625rem;
+  font-size: var(--fs-entry);
   margin-top: 1.75rem;
 }
 
@@ -365,40 +738,15 @@ time,
 
 .prose figcaption {
   color: var(--muted);
-  font-size: 0.875rem;
+  font-size: var(--fs-small);
   margin-top: 0.5rem;
 }
 
 .prose img {
-  border: 1px solid var(--rule);
-}
-
-/* ==========================================================================
-   The one page-load moment: the rule under the name draws itself once.
-   Only `transform` animates, so it contributes nothing to CLS.
-   ========================================================================== */
-
-.name-rule {
-  height: 2px;
-  background: var(--accent);
-  transform-origin: left center;
-  animation: draw 320ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
-}
-
-@keyframes draw {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+  border: 1px solid var(--hairline);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .name-rule {
-    animation: none;
-  }
-
   *,
   *::before,
   *::after {

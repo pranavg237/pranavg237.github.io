@@ -148,12 +148,13 @@ it is what makes those point at the new domain.
 
 ```
 public/
-  fonts/            self-hosted IBM Plex, referenced by a stable path
+  fonts/            self-hosted Schibsted Grotesk + Geist, at stable paths
   projects/<slug>/  screenshot slots
   og.png            generated, committed
   resume.pdf        supplied by hand, not generated
 src/
-  components/       BaseHead, Footer, Entry, Row, ThemeToggle
+  components/       BaseHead, Footer, Section, Entry, Row, ThemeToggle,
+                    EducationList, SkillList, AwardList
   content/
     projects/       four project pages, one Markdown file each
     writing/        empty except the format reference

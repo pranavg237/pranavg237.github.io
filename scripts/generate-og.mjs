@@ -18,23 +18,24 @@ import sharp from 'sharp';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pub = join(root, 'public');
 
-const fontDir = join(root, 'node_modules/@fontsource/ibm-plex-sans/files');
+const fontDir = join(root, 'node_modules/@fontsource/schibsted-grotesk/files');
 const [regular, semibold] = await Promise.all([
-  readFile(join(fontDir, 'ibm-plex-sans-latin-400-normal.woff')),
-  readFile(join(fontDir, 'ibm-plex-sans-latin-600-normal.woff')),
+  readFile(join(fontDir, 'schibsted-grotesk-latin-400-normal.woff')),
+  readFile(join(fontDir, 'schibsted-grotesk-latin-600-normal.woff')),
 ]);
 
+const FONT = 'Schibsted Grotesk';
 const fonts = [
-  { name: 'IBM Plex Sans', data: regular, weight: 400, style: 'normal' },
-  { name: 'IBM Plex Sans', data: semibold, weight: 600, style: 'normal' },
+  { name: FONT, data: regular, weight: 400, style: 'normal' },
+  { name: FONT, data: semibold, weight: 600, style: 'normal' },
 ];
 
-// Light-mode tokens from src/styles/global.css. OG images have no dark mode.
-const PAPER = '#f7f7f5';
-const INK = '#15171b';
-const MUTED = '#5c616a';
-const RULE = '#e2e1dd';
-const ACCENT = '#2f3ba2';
+// Tokens from src/styles/global.css. The site is black for everyone, so the
+// OG image and the icons are black too — there is no second palette to pick.
+const PAPER = '#000000';
+const INK = '#ffffff';
+const MUTED = '#ababab';
+const RULE = '#383838';
 
 /** satori accepts plain objects in place of JSX elements. */
 const h = (type, style, children) => ({ type, props: { style, children } });
@@ -43,30 +44,37 @@ const h = (type, style, children) => ({ type, props: { style, children } });
 /* Open Graph — 1200x630                                                      */
 /* -------------------------------------------------------------------------- */
 
-// The rail, carried over from the site: each line is a row of
-// [date in the gutter][hairline][content], exactly as the pages are built.
+// The entry grid, carried over from the site: a hairline, then a date in the
+// left column against the content in the right, exactly as the pages are built.
 const ogRow = (date, children, extra = {}) =>
-  h('div', { display: 'flex', width: '100%', ...extra }, [
-    h(
-      'div',
-      {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        width: '150px',
-        paddingRight: '28px',
-        borderRight: `2px solid ${RULE}`,
-        color: MUTED,
-        fontSize: '22px',
-        flexShrink: 0,
-      },
-      date,
-    ),
-    h(
-      'div',
-      { display: 'flex', flexDirection: 'column', paddingLeft: '36px', flex: 1 },
-      children,
-    ),
-  ]);
+  h(
+    'div',
+    {
+      display: 'flex',
+      width: '100%',
+      borderTop: `1px solid ${RULE}`,
+      paddingTop: '20px',
+      ...extra,
+    },
+    [
+      h(
+        'div',
+        {
+          display: 'flex',
+          width: '200px',
+          color: MUTED,
+          fontSize: '22px',
+          flexShrink: 0,
+        },
+        date,
+      ),
+      h(
+        'div',
+        { display: 'flex', flexDirection: 'column', flex: 1 },
+        children,
+      ),
+    ],
+  );
 
 const ogTree = h(
   'div',
@@ -76,53 +84,62 @@ const ogTree = h(
     width: '1200px',
     height: '630px',
     backgroundColor: PAPER,
-    fontFamily: 'IBM Plex Sans',
+    fontFamily: FONT,
     padding: '64px 72px',
   },
   [
-    ogRow('', [
-      h(
-        'div',
-        {
-          display: 'flex',
-          color: INK,
-          fontSize: '72px',
-          fontWeight: 600,
-          letterSpacing: '-0.018em',
-          lineHeight: 1.05,
-        },
-        'Pranav Gillella',
-      ),
-      h('div', {
-        display: 'flex',
-        width: '104px',
-        height: '5px',
-        backgroundColor: ACCENT,
-        marginTop: '24px',
-      }),
-      h(
-        'div',
-        {
-          display: 'flex',
-          color: INK,
-          fontSize: '31px',
-          fontWeight: 600,
-          lineHeight: 1.35,
-          letterSpacing: '-0.008em',
-          marginTop: '34px',
-          maxWidth: '700px',
-        },
-        'Finance + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
-      ),
-      h('div', { display: 'flex', height: '44px' }),
-    ]),
+    // The masthead, with no rule above it: name, then title, then one-liner.
+    ogRow(
+      '',
+      [
+        h(
+          'div',
+          {
+            display: 'flex',
+            color: INK,
+            fontSize: '56px',
+            fontWeight: 600,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.05,
+          },
+          'Pranav Gillella,',
+        ),
+        h(
+          'div',
+          {
+            display: 'flex',
+            color: MUTED,
+            fontSize: '56px',
+            fontWeight: 600,
+            letterSpacing: '-0.02em',
+            lineHeight: 1.15,
+          },
+          'Founder, Quant Labs LLC',
+        ),
+        h(
+          'div',
+          {
+            display: 'flex',
+            color: INK,
+            fontSize: '27px',
+            lineHeight: 1.4,
+            letterSpacing: '-0.005em',
+            marginTop: '26px',
+            maxWidth: '760px',
+          },
+          'Finance + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
+        ),
+        h('div', { display: 'flex', height: '34px' }),
+      ],
+      { borderTop: 'none', paddingTop: '0px' },
+    ),
     ogRow('Aug 2026', [
       h(
         'div',
         { display: 'flex', color: INK, fontSize: '24px', lineHeight: 1.5 },
         'Freshman at UIUC — finance in Gies, CS minor in Grainger',
       ),
-      h('div', { display: 'flex', height: '18px' }),
+      h('div', { display: 'flex', height: '12px' }),
     ]),
     ogRow('Jun 2026', [
       h(
@@ -130,7 +147,7 @@ const ogTree = h(
         { display: 'flex', color: INK, fontSize: '24px', lineHeight: 1.5 },
         'Quant Labs LLC — EarlyDMV and Protestly',
       ),
-      h('div', { display: 'flex', height: '18px' }),
+      h('div', { display: 'flex', height: '12px' }),
     ]),
     ogRow('Mar 2026', [
       h(
@@ -168,15 +185,15 @@ const markTree = h(
     justifyContent: 'center',
     width: '512px',
     height: '512px',
-    backgroundColor: INK,
-    fontFamily: 'IBM Plex Sans',
+    backgroundColor: PAPER,
+    fontFamily: FONT,
   },
   [
     h(
       'div',
       {
         display: 'flex',
-        color: PAPER,
+        color: INK,
         fontSize: '300px',
         fontWeight: 600,
         lineHeight: 1,
@@ -188,7 +205,7 @@ const markTree = h(
       display: 'flex',
       width: '150px',
       height: '26px',
-      backgroundColor: ACCENT,
+      backgroundColor: INK,
       marginTop: '18px',
     }),
   ],
@@ -239,9 +256,9 @@ console.log('wrote public/favicon.ico (32x32)');
  * the bytes at the size a favicon is actually displayed.
  */
 const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="${INK}"/>
-  <path d="M10.3 7h6.3c3.1 0 5.1 1.9 5.1 4.8s-2 4.8-5.1 4.8h-2.9V21h-3.4V7Zm3.4 2.8v4h2.6c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-2.6Z" fill="${PAPER}"/>
-  <rect x="11.5" y="23.4" width="9" height="2.6" fill="${ACCENT}"/>
+  <rect width="32" height="32" fill="${PAPER}"/>
+  <path d="M10.3 7h6.3c3.1 0 5.1 1.9 5.1 4.8s-2 4.8-5.1 4.8h-2.9V21h-3.4V7Zm3.4 2.8v4h2.6c1.3 0 2.2-.8 2.2-2s-.9-2-2.2-2h-2.6Z" fill="${INK}"/>
+  <rect x="11.5" y="23.4" width="9" height="2.6" fill="${INK}"/>
 </svg>
 `;
 await writeFile(join(pub, 'favicon.svg'), faviconSvg);
