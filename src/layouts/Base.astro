@@ -3,7 +3,9 @@ import '../styles/global.css';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import { Image } from 'astro:assets';
 import { profile, links } from '../data/resume';
+import headshot from '../assets/headshot.jpg';
 
 interface Props {
   title: string;
@@ -96,6 +98,9 @@ const isExternal = (href: string) => !href.startsWith('/') || href.endsWith('.pd
             </ul>
           </nav>
           <ThemeToggle />
+          <a class="avatar" href="/about" aria-label={`About ${profile.name}`}>
+            <Image src={headshot} alt="" width={72} height={72} loading="eager" />
+          </a>
         </div>
       </header>
 
@@ -136,6 +141,30 @@ const isExternal = (href: string) => !href.startsWith('/') || href.endsWith('.pd
 </html>
 
 <style>
+  /* The site's only rounded element: an explicit exception to the
+     border-radius: 0 reset in global.css. */
+  .avatar {
+    display: block;
+    flex: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+
+  .avatar :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .avatar:hover {
+    border-color: var(--ink);
+  }
+
   .masthead__right {
     display: flex;
     align-items: center;
