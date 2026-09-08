@@ -25,7 +25,8 @@ export interface Job {
   readonly org: string;
   readonly role: string;
   readonly dates: string;
-  readonly location: string;
+  /** Omitted for projects, which have a stack in `org` and no place of work. */
+  readonly location?: string;
   readonly summary?: string;
   readonly bullets: readonly string[];
   readonly subRoles?: readonly SubRole[];
@@ -146,19 +147,6 @@ export const experience: readonly Job[] = [
     ],
   },
   {
-    org: 'Independent Quant Research',
-    role: 'Quantitative Developer',
-    dates: 'Mar 2026 – Present',
-    location: 'Carrollton, TX',
-    bullets: [
-      'Built a moving average crossover backtesting engine in Python: signal generation, position sizing, transaction costs and equity curve simulation.',
-      'Wrote the metrics from scratch — Sharpe, maximum drawdown, win rate — instead of using a backtesting library.',
-      'Ran it on a $100K paper portfolio through the Alpaca Markets API. Paper trading, not live capital.',
-      'Applied walk-forward optimization across short and long SMA windows to remove look-ahead bias.',
-      'Extending it to a Fama-French factor model, alongside Joshi’s quant finance interview guide.',
-    ],
-  },
-  {
     org: 'Intellichoice Tutoring',
     role: 'Co-President',
     dates: 'Aug 2025 – May 2026',
@@ -189,6 +177,37 @@ export const experience: readonly Job[] = [
     bullets: [
       'Customer service, food prep and cash handling in a high-volume cafe.',
       'Held order accuracy and service speed through peak hours on a rotating shift team.',
+    ],
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Self-directed work, kept out of `experience` on purpose: none of it is
+ * employment, and the résumé PDF draws the same line. `org` carries the stack
+ * rather than an employer, and there is no location.
+ */
+export const projects: readonly Job[] = [
+  {
+    org: 'Python, Alpaca Markets API',
+    role: 'MA Crossover Backtesting Engine',
+    dates: 'Mar 2026 – Present',
+    bullets: [
+      'Built a moving average crossover backtesting engine in Python: signal generation, position sizing, transaction costs and equity curve simulation.',
+      'Wrote the metrics from scratch — Sharpe, maximum drawdown, win rate — instead of using a backtesting library.',
+      'Ran it on a $100K paper portfolio through the Alpaca Markets API. Paper trading, not live capital.',
+      'Applied walk-forward optimization across short and long SMA windows to remove look-ahead bias.',
+      'Extending it to a Fama-French factor model, alongside Joshi’s quant finance interview guide.',
+    ],
+  },
+  {
+    org: 'Linux, nginx, Cloudflare Tunnel',
+    role: 'Self-Hosted Web Infrastructure',
+    dates: 'Jun 2026 – Present',
+    bullets: [
+      'Run both production business sites off local Linux hardware at $0 hosting cost.',
+      'Configured nginx reverse proxying, TLS and GitHub Actions self-hosted runners for deploys.',
     ],
   },
 ];

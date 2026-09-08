@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import ThemeToggle from '../components/ThemeToggle.astro';
 import { Image } from 'astro:assets';
 import { profile, links } from '../data/resume';
-import headshot from '../assets/headshot.jpg';
+import avatar from '../assets/avatar.jpg';
 
 interface Props {
   title: string;
@@ -99,7 +99,7 @@ const isExternal = (href: string) => !href.startsWith('/') || href.endsWith('.pd
           </nav>
           <ThemeToggle />
           <a class="avatar" href="/about" aria-label={`About ${profile.name}`}>
-            <Image src={headshot} alt="" width={72} height={72} loading="eager" />
+            <Image src={avatar} alt="" width={72} height={72} loading="eager" />
           </a>
         </div>
       </header>

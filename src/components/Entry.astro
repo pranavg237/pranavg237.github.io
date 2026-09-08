@@ -23,7 +23,7 @@ const SubHeading = Heading === 'h3' ? 'h4' : 'h5';
     <p class="entry__facts">
       <span>{job.org}</span>
       <span class="tnum">{job.dates}</span>
-      <span>{job.location}</span>
+      {job.location && <span>{job.location}</span>}
     </p>
   </div>
 

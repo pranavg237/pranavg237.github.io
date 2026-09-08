@@ -5,15 +5,19 @@ import Entry from '../components/Entry.astro';
 import EducationList from '../components/EducationList.astro';
 import SkillList from '../components/SkillList.astro';
 import AwardList from '../components/AwardList.astro';
-import { experience, leadership } from '../data/resume';
+import { experience, projects, leadership } from '../data/resume';
 ---
 
 <Base
   title="Experience — Pranav Gillella"
-  description="Quant Labs LLC, independent quant research, tutoring, leadership, education, skills and awards."
+  description="Quant Labs LLC, tutoring, self-directed quant and infrastructure projects, leadership, education, skills and awards."
 >
   <Section title="Experience" as="h1">
     {experience.map((job) => <Entry job={job} />)}
+  </Section>
+
+  <Section title="Projects">
+    {projects.map((p) => <Entry job={p} />)}
   </Section>
 
   <Section title="Leadership">

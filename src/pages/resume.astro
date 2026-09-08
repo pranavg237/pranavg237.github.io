@@ -8,6 +8,7 @@ import AwardList from '../components/AwardList.astro';
 import {
   profile,
   experience,
+  projects,
   leadership,
   resumeUpdated,
 } from '../data/resume';
@@ -47,6 +48,10 @@ const updated = new Date(`${resumeUpdated}T00:00:00Z`).toLocaleDateString(
 
   <Section title="Experience">
     {experience.map((job) => <Entry job={job} />)}
+  </Section>
+
+  <Section title="Projects">
+    {projects.map((p) => <Entry job={p} />)}
   </Section>
 
   <Section title="Leadership">
