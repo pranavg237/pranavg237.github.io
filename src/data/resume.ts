@@ -2,10 +2,11 @@
  * Single source of truth for all resume-style content on the site.
  *
  * Reconciled from Resume_Pranav_Gillella-FINAL.docx, Resume_Pranav_Gillella.docx,
- * and Resume_Pranav_Gillella_MASTER.pdf per the rules in PROMPT.md.
+ * and Resume_Pranav_Gillella_MASTER.pdf per the rules in PROMPT.md, then
+ * brought up to the revised master of 10 Sep 2026.
  * The reasoning for every conflict is in reference/content-conflicts.md.
  *
- * Nothing in this file is invented. If a fact is not in one of those three
+ * Nothing in this file is invented. If a fact is not in one of those
  * documents or in Pranav's own answers, it is not here.
  */
 
@@ -46,9 +47,15 @@ export interface Award {
   readonly date: string;
 }
 
+/** Items the résumé rates at the same self-assessed level. */
+export interface SkillTier {
+  readonly level: 'advanced' | 'intermediate' | 'beginner';
+  readonly items: readonly string[];
+}
+
 export interface SkillGroup {
   readonly name: string;
-  readonly items: readonly string[];
+  readonly tiers: readonly SkillTier[];
 }
 
 /* -------------------------------------------------------------------------- */
@@ -60,9 +67,12 @@ export const profile = {
    * display size, and the same claim BaseHead already makes in JSON-LD.
    */
   title: 'Founder, Quant Labs LLC',
-  /** The one line, verbatim from PROMPT.md. */
+  /**
+   * The one line from PROMPT.md, with "Finance" swapped for "Business" once the
+   * master listed the degree as undeclared in Gies.
+   */
   oneLiner:
-    'Finance + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
+    'Business + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
   location: 'Carrollton, TX',
   email: 'prg6@illinois.edu',
   altEmail: 'pranav.gillella1@gmail.com',
@@ -85,7 +95,7 @@ export const now: readonly { date: string; text: string }[] = [
   {
     date: 'Aug 2026',
     text:
-      'Freshman at UIUC, studying finance in Gies with a computer science minor in Grainger.',
+      'Freshman at UIUC in the Gies College of Business, undeclared, with a computer science minor in Grainger.',
   },
   {
     date: 'Jun 2026',
@@ -147,12 +157,22 @@ export const experience: readonly Job[] = [
     ],
   },
   {
+    org: 'Snow City Cafe',
+    role: 'Cafe Associate',
+    dates: 'Feb 2026 – Aug 2026',
+    location: 'Carrollton, TX',
+    bullets: [
+      'Customer service, food prep and cash handling in a high-volume cafe.',
+      'Held order accuracy and service speed through peak hours on a rotating shift team.',
+    ],
+  },
+  {
     org: 'Intellichoice Tutoring',
     role: 'Co-President',
     dates: 'Aug 2025 – May 2026',
     location: 'Carrollton, TX',
     bullets: [
-      'Recruited 15 peer tutors through social media and club partnerships to serve 200 students.',
+      'Recruited 15+ peer tutors through social media and club partnerships to serve 200 elementary students.',
       'Ran 3-hour Saturday sessions at a local elementary school, Pre-Algebra through Calculus and Physics.',
       'Handled scheduling and logistics for a community program serving underserved students.',
     ],
@@ -163,20 +183,8 @@ export const experience: readonly Job[] = [
     dates: 'Dec 2024 – May 2026',
     location: 'Remote',
     bullets: [
-      'Tutored 5 AP Calculus AB and BC students, 2 hours weekly across two academic years.',
+      'Tutored 5 AP Calculus AB and BC students nationwide, 2 hours weekly across two academic years.',
       'All 5 scored a 4 or higher on the AP exam, with course averages above 85%.',
-    ],
-  },
-  {
-    org: 'Snow City Cafe',
-    role: 'Cafe Associate',
-    // Months confirmed by Pranav; the résumé PDF still carries the vaguer
-    // "2025 – 2026" span and should be corrected to match.
-    dates: 'Feb 2026 – Aug 2026',
-    location: 'Carrollton, TX',
-    bullets: [
-      'Customer service, food prep and cash handling in a high-volume cafe.',
-      'Held order accuracy and service speed through peak hours on a rotating shift team.',
     ],
   },
 ];
@@ -190,6 +198,15 @@ export const experience: readonly Job[] = [
  */
 export const projects: readonly Job[] = [
   {
+    org: 'Linux, nginx, Cloudflare Tunnel',
+    role: 'Self-Hosted Web Infrastructure',
+    dates: 'Jun 2026 – Present',
+    bullets: [
+      'Operate both production business sites off local Linux hardware behind a Cloudflare Tunnel, at $0 hosting cost.',
+      'Configured nginx reverse proxying, TLS termination, launchd service supervision and GitHub Actions self-hosted runners for deploys.',
+    ],
+  },
+  {
     org: 'Python, Alpaca Markets API',
     role: 'MA Crossover Backtesting Engine',
     dates: 'Mar 2026 – Present',
@@ -199,15 +216,6 @@ export const projects: readonly Job[] = [
       'Ran it on a $100K paper portfolio through the Alpaca Markets API. Paper trading, not live capital.',
       'Applied walk-forward optimization across short and long SMA windows to remove look-ahead bias.',
       'Extending it to a Fama-French factor model, alongside Joshi’s quant finance interview guide.',
-    ],
-  },
-  {
-    org: 'Linux, nginx, Cloudflare Tunnel',
-    role: 'Self-Hosted Web Infrastructure',
-    dates: 'Jun 2026 – Present',
-    bullets: [
-      'Run both production business sites off local Linux hardware at $0 hosting cost.',
-      'Configured nginx reverse proxying, TLS and GitHub Actions self-hosted runners for deploys.',
     ],
   },
 ];
@@ -231,7 +239,7 @@ export const leadership: readonly Job[] = [
     dates: 'Aug 2026 – Present',
     location: 'Champaign, IL',
     bullets: [
-      'Represent Gies to prospective and admitted students through campus tours and panels.',
+      'Promote Gies to prospective and admitted students and families through campus tours and student panels.',
       'Support recruitment and branding through video features, photo shoots and admitted student events.',
     ],
   },
@@ -242,7 +250,6 @@ export const leadership: readonly Job[] = [
     location: 'Carrollton, TX',
     bullets: [
       'Led a squad in a 200+ member ensemble, as liaison between the directors and members.',
-      'Earned TMEA All-State Band membership in 2026 and All-Area clarinet honors across three consecutive years.',
       'Earned consecutive Superior ratings at UIL Solo and Ensemble competition.',
       'With the ensemble: 3rd at BOA Grand Nationals (2023), 1st at UIL State (2024), 1st at BOA Super Regionals (2025).',
     ],
@@ -254,7 +261,7 @@ export const leadership: readonly Job[] = [
 export const education: readonly Education[] = [
   {
     school: 'University of Illinois Urbana-Champaign',
-    credential: 'B.S. Finance, Gies College of Business',
+    credential: 'B.S., Undeclared, Gies College of Business',
     dates: 'Aug 2026 – May 2030',
     location: 'Champaign, IL',
     bullets: [
@@ -268,7 +275,7 @@ export const education: readonly Education[] = [
     dates: 'Aug 2022 – May 2026',
     location: 'Carrollton, TX',
     bullets: [
-      'GPA 3.95 unweighted / 5.03 weighted. ACT 34.',
+      'GPA 3.95 / 4.00.',
       'National Merit Commended Scholar. AP Scholar with Distinction, with 5s in Calculus AB, Calculus BC and Computer Science A.',
     ],
   },
@@ -295,44 +302,66 @@ export const awards: readonly Award[] = [
 
 /* -------------------------------------------------------------------------- */
 
+/** Levels are Pranav's own, verbatim from the 10 Sep 2026 master. */
 export const skills: readonly SkillGroup[] = [
   {
     name: 'Languages',
-    items: ['Python', 'numpy', 'pandas', 'matplotlib', 'Java'],
+    tiers: [
+      { level: 'advanced', items: ['Python', 'numpy', 'pandas', 'matplotlib'] },
+      { level: 'intermediate', items: ['Java'] },
+    ],
   },
   {
     name: 'Frameworks',
-    items: ['Django', 'HTMX', 'React', 'Next.js', 'Playwright'],
+    tiers: [
+      {
+        level: 'beginner',
+        items: ['Django', 'HTMX', 'React', 'Next.js', 'Playwright'],
+      },
+    ],
   },
   {
     name: 'Infrastructure',
-    items: [
-      'Linux (self-hosted)',
-      'nginx',
-      'Cloudflare Tunnel',
-      'launchd',
-      'GitHub Actions (self-hosted runners)',
-      'Git/GitHub',
+    tiers: [
+      {
+        level: 'beginner',
+        items: [
+          'Linux (self-hosted)',
+          'nginx',
+          'Cloudflare Tunnel',
+          'launchd',
+          'GitHub Actions (self-hosted runners)',
+          'Git/GitHub',
+        ],
+      },
     ],
   },
   {
     name: 'Tools & APIs',
-    items: [
-      'Alpaca Markets API',
-      'Claude API',
-      'Claude Code',
-      'Chrome MCP',
-      'Stripe (incl. Apple Pay)',
+    tiers: [
+      { level: 'intermediate', items: ['Stripe (incl. Apple Pay)'] },
+      {
+        level: 'beginner',
+        items: ['Alpaca Markets API', 'Claude API', 'Claude Code', 'Chrome MCP'],
+      },
     ],
   },
   {
     name: 'Finance & Quant',
-    items: [
-      'Equity valuation',
-      'Options pricing',
-      'Strategy backtesting',
-      'Factor models (Fama-French)',
-      'Texas property tax law (Tax Code 41.41, 41.43, 23.01)',
+    tiers: [
+      {
+        level: 'intermediate',
+        items: ['Texas property tax law (Tax Code 41.41, 41.43, 23.01)'],
+      },
+      {
+        level: 'beginner',
+        items: [
+          'Equity valuation',
+          'Options pricing',
+          'Strategy backtesting',
+          'Factor models (Fama-French)',
+        ],
+      },
     ],
   },
 ];
@@ -342,11 +371,13 @@ export const skills: readonly SkillGroup[] = [
 /** Short list for /about. Pranav edits this one. */
 export const outsideOfWork: readonly string[] = [
   'Clarinet — TMEA All-State Band, 2026',
-  'DCI marching band',
+  'Drum Corps International and the marching arts',
   'Gym and natural bodybuilding',
-  'Basketball',
+  'Minnesota Timberwolves and Vikings',
+  'Apple hardware',
+  'Running local AI models and following AI research',
   'Math problem-solving for its own sake',
 ];
 
 /** Shown on /resume next to the PDF link. Update when public/resume.pdf changes. */
-export const resumeUpdated = '2026-09-08';
+export const resumeUpdated = '2026-09-10';

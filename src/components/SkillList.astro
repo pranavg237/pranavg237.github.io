@@ -3,7 +3,7 @@ import { skills } from '../data/resume';
 
 /**
  * The same two columns as every other record on the page: the group name on
- * the left, the items on the right.
+ * the left, the items on the right, one line per self-assessed level.
  */
 ---
 
@@ -13,11 +13,16 @@ import { skills } from '../data/resume';
       <div class="skills__group">
         <dt class="skills__name">{group.name}</dt>
         <dd class="skills__items">
-          <ul class="chips">
-            {group.items.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
+          {group.tiers.map((tier) => (
+            <div class="skills__tier">
+              <p class="skills__level">{tier.level}</p>
+              <ul class="chips">
+                {tier.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </dd>
       </div>
     ))
@@ -51,6 +56,19 @@ import { skills } from '../data/resume';
   .skills__items {
     margin: 0;
     min-width: 1px;
+  }
+
+  .skills__tier + .skills__tier {
+    margin-top: 0.9rem;
+  }
+
+  /* A label, not content: the structural face, muted, like the entry facts. */
+  .skills__level {
+    font-family: var(--font-sans);
+    font-size: var(--fs-label);
+    color: var(--muted);
+    text-transform: capitalize;
+    margin-bottom: 0.25rem;
   }
 
   @media (min-width: 50rem) {

@@ -240,3 +240,35 @@ sub-role in `src/data/resume.ts`, both of which are commented at the spot.
 
 The business itself is live and is described as such — 30 clients, a full
 protest season, $32K in reductions. It is only the website that is not.
+
+---
+
+## Revised master — 10 Sep 2026
+
+Pranav supplied a revised `Resume_Pranav_Gillella_MASTER.pdf` (4 pages) and a
+new one-page `Resume_Pranav_Gillella.pdf`. The one-pager is now
+`public/resume.pdf`; the site's content follows the master. Diffed against the
+previous master (commit `186f0ad`), these are the substantive changes — the
+rest is abbreviations spelled out for ATS parsing, which the site does not copy.
+
+| Change in the master | What the site does |
+|---|---|
+| Degree **Finance → Undeclared**, Gies | Credential reads "B.S., Undeclared". The one-liner, home title, OG image and About copy say "Business + CS" / "undeclared in Gies" instead of claiming a finance major. About still argues for finance as the interest, which it is. |
+| Weighted GPA (5.03) and ACT 34 removed | Removed. Hebron shows GPA 3.95 / 4.00 only. |
+| Intellichoice: 15 → **15+** tutors, 200 → **200 elementary** students | Updated. |
+| Private tutor: "nationwide" | Added; location stays Remote. |
+| Snow City Cafe months filled in (Feb – Aug 2026) and moved above Intellichoice | Reordered to match. The months already matched. |
+| Projects reordered, Self-Hosted Infrastructure first; all dated to the month | Reordered to match. |
+| New "EarlyDMV.com Scheduling Platform" project | **Not** duplicated on `/experience` — it restates the EarlyDMV sub-role directly above it, and `/projects/earlydmv` already covers it. Same for the Property Tax Protest Automation Pipeline, which the old master also had. |
+| Gies Ambassadors: "Represent" → "Promote" | Updated, with "and families". |
+| Band: TMEA All-State / All-Area bullet removed | Removed; both remain under Awards. |
+| Skills now carry self-assessed levels throughout | **Reverses §10's decision to drop levels.** Pranav added them on purpose to both résumés, so the site shows them, tiered per group. |
+| Interests rewritten (Timberwolves, DCI, bodybuilding, Apple hardware, local AI models; Vikings on the one-pager) | Merged into "Outside of work". Clarinet and math problem-solving are kept because nothing contradicts them. |
+
+Unchanged on purpose: the Quant Labs structure and "Founder" title, Independent
+Quant Research living under Projects, "this semester" coursework instead of the
+planned list, and the LinkedIn URL. Both PDFs still print
+`linkedin.com/in/pranavgillella` as plain text (no hyperlink in the .docx),
+which is the same text the previous one-pager carried when the site was pointed
+at `/in/pranav-gillella-a953ba435` on 8 Sep. LinkedIn answers automated requests
+with a 999, so neither URL could be verified from here.

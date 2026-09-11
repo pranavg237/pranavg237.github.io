@@ -127,7 +127,7 @@ const ogTree = h(
             marginTop: '26px',
             maxWidth: '760px',
           },
-          'Finance + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
+          'Business + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
         ),
         h('div', { display: 'flex', height: '34px' }),
       ],
@@ -137,7 +137,7 @@ const ogTree = h(
       h(
         'div',
         { display: 'flex', color: INK, fontSize: '24px', lineHeight: 1.5 },
-        'Freshman at UIUC — finance in Gies, CS minor in Grainger',
+        'Freshman at UIUC — Gies Business, CS minor in Grainger',
       ),
       h('div', { display: 'flex', height: '12px' }),
     ]),
