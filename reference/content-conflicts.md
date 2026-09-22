@@ -272,3 +272,14 @@ planned list, and the LinkedIn URL. Both PDFs still print
 which is the same text the previous one-pager carried when the site was pointed
 at `/in/pranav-gillella-a953ba435` on 8 Sep. LinkedIn answers automated requests
 with a 999, so neither URL could be verified from here.
+
+## Revised master — 22 Sep 2026
+
+Pranav revised `Resume_Pranav_Gillella_MASTER.docx` again. Against the 10 Sep
+master, the one substantive change is the new SIG-ICPC entry under Leadership &
+Involvement, which now carries two bullets. The site takes both, with ICPC kept
+as an acronym like the site's other abbreviations, and keeps the TODO for the
+project assignment. `public/resume.pdf` is the v4 one-pager, which still has the
+earlier single SIG-ICPC bullet. Everything else the master differs on is an
+existing decision above: the "Founder" title, Quant Research under Projects,
+"this semester" coursework and the Vikings.

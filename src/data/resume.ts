@@ -3,7 +3,7 @@
  *
  * Reconciled from Resume_Pranav_Gillella-FINAL.docx, Resume_Pranav_Gillella.docx,
  * and Resume_Pranav_Gillella_MASTER.pdf per the rules in PROMPT.md, then
- * brought up to the revised master of 10 Sep 2026.
+ * brought up to the revised master of 22 Sep 2026.
  * The reasoning for every conflict is in reference/content-conflicts.md.
  *
  * Nothing in this file is invented. If a fact is not in one of those
@@ -239,8 +239,9 @@ export const leadership: readonly Job[] = [
     dates: 'Aug 2026 – Present',
     location: 'Champaign, IL',
     bullets: [
+      'Compete and train with the University of Illinois competitive programming group, at weekly practices and tryouts for ICPC regional competition.',
       // TODO: project assignment TBD. Name the project here once assigned.
-      'Active participant preparing for ICPC regional competition; selected for the project team, assignment pending.',
+      'Serve on the project team building resources for the Illinois Programming League, the annual contest the University of Illinois hosts. Project assignment pending.',
     ],
   },
   {
