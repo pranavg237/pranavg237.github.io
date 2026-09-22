@@ -390,4 +390,4 @@ export const outsideOfWork: readonly string[] = [
 ];
 
 /** Shown on /resume next to the PDF link. Update when public/resume.pdf changes. */
-export const resumeUpdated = '2026-09-10';
+export const resumeUpdated = '2026-09-21';
