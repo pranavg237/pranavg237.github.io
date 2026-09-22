@@ -2,7 +2,7 @@
 title: MA crossover backtester
 tagline: A moving average crossover backtesting engine, written from scratch in Python.
 stack: [Python, numpy, pandas, matplotlib, Alpaca Markets API]
-role: Sole developer
+role: Quantitative developer, independent research
 dates: Mar 2026 – Present
 status: In progress
 links:

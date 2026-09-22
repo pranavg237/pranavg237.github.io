@@ -283,3 +283,19 @@ project assignment. `public/resume.pdf` is the v4 one-pager, which still has the
 earlier single SIG-ICPC bullet. Everything else the master differs on is an
 existing decision above: the "Founder" title, Quant Research under Projects,
 "this semester" coursework and the Vikings.
+
+### Superset rule, from 22 Sep 2026
+
+Pranav's rule going forward: the site may carry more than the résumés, never
+less. That reverses three earlier trims, which the site now restores:
+
+| Résumé fact | Was | Now |
+|---|---|---|
+| Quant Labs title "Founder & Chief Executive Officer" | "Founder" | "Founder & CEO" |
+| EarlyDMV "Founder & Full Stack Developer"; Protestly "Founder & Property Tax Consultant" | implied by bullets | stated in each summary; EarlyDMV project role updated |
+| Planned coursework (CS 225, Probability and Statistics, Financial Accounting, Business Analytics) | not published | added under UIUC, after "This semester" |
+| Independent Quantitative Research, "Quantitative Developer" | "Sole developer" | backtester project role |
+| Intellichoice "math and science program"; Protestly "zero upfront cost" | shortened | restored |
+
+Not added to page HTML: the phone number. It is on `public/resume.pdf`, so the
+site already carries it; putting it in the markup as well is Pranav's call.

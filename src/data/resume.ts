@@ -114,7 +114,7 @@ export const now: readonly { date: string; text: string }[] = [
 export const experience: readonly Job[] = [
   {
     org: 'Quant Labs LLC',
-    role: 'Founder',
+    role: 'Founder & CEO',
     dates: 'Jun 2026 – Present',
     location: 'Carrollton, TX',
     summary:
@@ -129,7 +129,7 @@ export const experience: readonly Job[] = [
         name: 'EarlyDMV',
         href: 'https://earlydmv.com',
         summary:
-          'A paid service that finds and secures earlier Texas DPS driver license appointments.',
+          'A paid service that finds and secures earlier Texas DPS driver license appointments. I founded it and am its full-stack developer.',
         bullets: [
           'Cut appointment waits by 2 weeks on average across 10 customers in the first 2 months.',
           'Built the full stack solo in Django and HTMX, with Stripe checkout, Apple Pay and transactional email.',
@@ -144,7 +144,7 @@ export const experience: readonly Job[] = [
         // warning. Restore the href once the site ships.
         name: 'Protestly',
         summary:
-          'Automated property tax protests for Denton County homeowners, on a no-win, no-fee 25% contingency. The public site at theqntlabs.com is still in development.',
+          'Automated property tax protests for Denton County homeowners, on a no-win, no-fee 25% contingency with zero upfront cost. I founded it and am its property tax consultant. The public site at theqntlabs.com is still in development.',
         bullets: [
           'Represented 30 homeowners in Appraisal Review Board video hearings, cutting their tax bills by $32K and generating $8K in fees.',
           'Retained all 30 clients for a second protest cycle — a 100% commitment rate after the first full season.',
@@ -174,7 +174,7 @@ export const experience: readonly Job[] = [
     bullets: [
       'Recruited 15+ peer tutors through social media and club partnerships to serve 200 elementary students.',
       'Ran 3-hour Saturday sessions at a local elementary school, Pre-Algebra through Calculus and Physics.',
-      'Handled scheduling and logistics for a community program serving underserved students.',
+      'Handled scheduling and logistics for a community math and science program serving underserved students.',
     ],
   },
   {
@@ -278,6 +278,7 @@ export const education: readonly Education[] = [
     bullets: [
       'Minor in Computer Science, Grainger College of Engineering.',
       'This semester: Calculus III, Microeconomics, Public Speaking, CS 124, Business 101, and Freshman Academy (FIN 199).',
+      'Planned coursework: CS 225 Data Structures, Probability and Statistics, Financial Accounting, and Business Analytics.',
     ],
   },
   {

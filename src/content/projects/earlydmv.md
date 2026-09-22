@@ -2,7 +2,7 @@
 title: EarlyDMV
 tagline: A paid Texas DPS appointment rebooking service.
 stack: [Django, HTMX, Stripe, nginx, Cloudflare Tunnel, GitHub Actions]
-role: Sole developer, designer and operator
+role: Founder, full-stack developer, designer and operator
 dates: Jun 2026 – Present
 status: Live
 links:
