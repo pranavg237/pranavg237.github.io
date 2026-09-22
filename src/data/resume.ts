@@ -234,6 +234,16 @@ export const leadership: readonly Job[] = [
     ],
   },
   {
+    org: 'SIG-ICPC (Illinois Programming League), University of Illinois',
+    role: 'Member, Project Team',
+    dates: 'Aug 2026 – Present',
+    location: 'Champaign, IL',
+    bullets: [
+      // TODO: project assignment TBD. Name the project here once assigned.
+      'Active participant preparing for ICPC regional competition; selected for the project team, assignment pending.',
+    ],
+  },
+  {
     org: 'Gies Ambassadors, Gies College of Business',
     role: 'Ambassador',
     dates: 'Aug 2026 – Present',
