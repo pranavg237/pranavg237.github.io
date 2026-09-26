@@ -3,7 +3,7 @@
  *
  * Reconciled from Resume_Pranav_Gillella-FINAL.docx, Resume_Pranav_Gillella.docx,
  * and Resume_Pranav_Gillella_MASTER.pdf per the rules in PROMPT.md, then
- * brought up to the revised master of 22 Sep 2026.
+ * brought up to the revised master of 25 Sep 2026.
  * The reasoning for every conflict is in reference/content-conflicts.md.
  *
  * Nothing in this file is invented. If a fact is not in one of those
@@ -234,6 +234,16 @@ export const leadership: readonly Job[] = [
     ],
   },
   {
+    org: 'Illini Venture Capital Association, University of Illinois',
+    role: 'Analyst',
+    dates: 'Sep 2026 – Present',
+    location: 'Champaign, IL',
+    bullets: [
+      'Selected through a competitive application to join the student venture capital organization at the University of Illinois.',
+      'Complete an 8-week venture capital bootcamp on the investment process, alongside live projects with partner venture firms.',
+    ],
+  },
+  {
     org: 'SIG-ICPC (Illinois Programming League), University of Illinois',
     role: 'Member, Project Team',
     dates: 'Aug 2026 – Present',
@@ -392,4 +402,4 @@ export const outsideOfWork: readonly string[] = [
 ];
 
 /** Shown on /resume next to the PDF link. Update when public/resume.pdf changes. */
-export const resumeUpdated = '2026-09-21';
+export const resumeUpdated = '2026-09-25';

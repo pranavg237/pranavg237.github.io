@@ -299,3 +299,14 @@ less. That reverses three earlier trims, which the site now restores:
 
 Not added to page HTML: the phone number. It is on `public/resume.pdf`, so the
 site already carries it; putting it in the markup as well is Pranav's call.
+
+## Revised master — 25 Sep 2026
+
+Pranav revised both résumés again. The one substantive change is a new
+Leadership & Involvement entry: **Illini Venture Capital Association, Analyst,
+Sep 2026 – Present**, placed between the Financial Engineering Club and
+SIG-ICPC as on both résumés. The site takes the master's two bullets (competitive
+selection; the 8-week bootcamp with live projects at partner firms).
+`public/resume.pdf` is now the 25 Sep one-pager, which also condenses the
+Intellichoice and private-tutor bullets; the site keeps the fuller master
+wording under the superset rule.
