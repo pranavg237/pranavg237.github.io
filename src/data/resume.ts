@@ -3,7 +3,7 @@
  *
  * Reconciled from Resume_Pranav_Gillella-FINAL.docx, Resume_Pranav_Gillella.docx,
  * and Resume_Pranav_Gillella_MASTER.pdf per the rules in PROMPT.md, then
- * brought up to the revised master of 25 Sep 2026.
+ * brought up to the revised master of 12 Oct 2026.
  * The reasoning for every conflict is in reference/content-conflicts.md.
  *
  * Nothing in this file is invented. If a fact is not in one of those
@@ -68,11 +68,11 @@ export const profile = {
    */
   title: 'Founder, Quant Labs LLC',
   /**
-   * The one line from PROMPT.md, with "Finance" swapped for "Business" once the
-   * master listed the degree as undeclared in Gies.
+   * The one line from PROMPT.md. "Studying", not "majoring in": both résumés
+   * of 12 Oct 2026 list Finance and Data Science as intended, not declared.
    */
   oneLiner:
-    'Business + CS at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
+    'Studying finance + data science at UIUC. Founder of Quant Labs LLC. Working toward quant trading and research.',
   location: 'Carrollton, TX',
   email: 'prg6@illinois.edu',
   altEmail: 'pranav.gillella1@gmail.com',
@@ -95,7 +95,7 @@ export const now: readonly { date: string; text: string }[] = [
   {
     date: 'Aug 2026',
     text:
-      'Freshman at UIUC in the Gies College of Business, undeclared, with a computer science minor in Grainger.',
+      'Freshman at UIUC in the Gies College of Business, intending to major in Finance + Data Science.',
   },
   {
     date: 'Jun 2026',
@@ -282,11 +282,10 @@ export const leadership: readonly Job[] = [
 export const education: readonly Education[] = [
   {
     school: 'University of Illinois Urbana-Champaign',
-    credential: 'B.S., Undeclared, Gies College of Business',
+    credential: 'B.S., Finance + Data Science (intended), Gies College of Business',
     dates: 'Aug 2026 – May 2030',
     location: 'Champaign, IL',
     bullets: [
-      'Minor in Computer Science, Grainger College of Engineering.',
       'This semester: Calculus III, Microeconomics, Public Speaking, CS 124, Business 101, and Freshman Academy (FIN 199).',
       'Planned coursework: CS 225 Data Structures, Probability and Statistics, Financial Accounting, and Business Analytics.',
     ],
@@ -402,4 +401,4 @@ export const outsideOfWork: readonly string[] = [
 ];
 
 /** Shown on /resume next to the PDF link. Update when public/resume.pdf changes. */
-export const resumeUpdated = '2026-09-25';
+export const resumeUpdated = '2026-10-12';

@@ -310,3 +310,19 @@ selection; the 8-week bootcamp with live projects at partner firms).
 `public/resume.pdf` is now the 25 Sep one-pager, which also condenses the
 Intellichoice and private-tutor bullets; the site keeps the fuller master
 wording under the superset rule.
+
+## Degree change — 12 Oct 2026
+
+Pranav moved from Finance (Gies) + CS minor (Grainger) to **Finance and Data
+Science (intended)**, Gies, on both résumés of 12 Oct 2026. The CS minor is
+gone from both.
+
+| Where | Was | Now |
+|---|---|---|
+| UIUC credential | B.S., Undeclared, Gies | B.S., Finance + Data Science (intended), Gies |
+| UIUC bullets | "Minor in Computer Science, Grainger" | removed; "this semester" and planned coursework unchanged (the master keeps the same planned list) |
+| One-liner, home title, OG image | "Business + CS at UIUC" | "Studying finance + data science at UIUC" — "studying", since the major is intended, not declared |
+| Now block, About | undeclared, CS minor | intending to major in Finance + Data Science |
+
+`public/resume.pdf` is now the 12 Oct one-pager. The AP Computer Science
+mentions stay; they are high school facts, not the degree.
