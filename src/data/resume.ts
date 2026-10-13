@@ -3,7 +3,7 @@
  *
  * Reconciled from Resume_Pranav_Gillella-FINAL.docx, Resume_Pranav_Gillella.docx,
  * and Resume_Pranav_Gillella_MASTER.pdf per the rules in PROMPT.md, then
- * brought up to the revised master of 12 Oct 2026.
+ * brought up to the revised master of 12 Oct 2026 (second revision).
  * The reasoning for every conflict is in reference/content-conflicts.md.
  *
  * Nothing in this file is invented. If a fact is not in one of those
@@ -249,9 +249,8 @@ export const leadership: readonly Job[] = [
     dates: 'Aug 2026 – Present',
     location: 'Champaign, IL',
     bullets: [
-      'Compete and train with the University of Illinois competitive programming group, at weekly practices and tryouts for ICPC regional competition.',
-      // TODO: project assignment TBD. Name the project here once assigned.
-      'Serve on the project team building resources for the Illinois Programming League, the annual contest the University of Illinois hosts. Project assignment pending.',
+      'Preparing for the ICPC regional competition as an active member of the University of Illinois competitive programming group.',
+      'On the online judge project team, working on rate limiting for the judge.',
     ],
   },
   {
@@ -286,8 +285,8 @@ export const education: readonly Education[] = [
     dates: 'Aug 2026 – May 2030',
     location: 'Champaign, IL',
     bullets: [
-      'This semester: Calculus III, Microeconomics, Public Speaking, CS 124, Business 101, and Freshman Academy (FIN 199).',
-      'Planned coursework: CS 225 Data Structures, Probability and Statistics, Financial Accounting, and Business Analytics.',
+      'This semester: Microeconomics, Public Speaking, CS 124, Business 101, and Freshman Academy (FIN 199).',
+      'Planned coursework: Data Science Discovery (STAT 107), Linear Algebra for Data Science (MATH 227), Corporate Finance (FIN 221), and Accounting (ACCY 201).',
     ],
   },
   {

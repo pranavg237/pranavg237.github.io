@@ -326,3 +326,18 @@ gone from both.
 
 `public/resume.pdf` is now the 12 Oct one-pager. The AP Computer Science
 mentions stay; they are high school facts, not the degree.
+
+## Four-year plan and second revision — 12 Oct 2026
+
+Pranav revised his Finance + Data Science four-year plan and then both
+résumés the same evening. Calculus III is dropped: Fall 2026 is CS 124,
+BUS 101, ECON 102, CMN 101 and FIN 199 (13 hr).
+
+| Where | Was | Now |
+|---|---|---|
+| UIUC "This semester" | included Calculus III | Calculus III removed (Pranav's answer; the master no longer prints a "this semester" line, but the site keeps it as before) |
+| UIUC planned coursework | CS 225 Data Structures, Probability and Statistics, Financial Accounting, Business Analytics | the master's new list — Data Science Discovery, Linear Algebra for Data Science, Corporate Finance, Accounting — with course numbers from the four-year plan (STAT 107, MATH 227, FIN 221, ACCY 201) |
+| SIG-ICPC bullets | weekly practices and tryouts; project assignment pending | preparing for ICPC regionals as an active member; on the online judge project team, working on rate limiting |
+
+`public/resume.pdf` is now the second 12 Oct one-pager, whose only change is
+the condensed SIG-ICPC bullet. Everything else in the master matches the site.
